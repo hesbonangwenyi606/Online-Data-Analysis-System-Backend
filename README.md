@@ -43,10 +43,10 @@ Doctor-Appointment-System/
 ## Dependencies Installation
 Before running the project, make sure you have all dependencies installed:
 
-1.Visual Studio
+1 Visual Studio
 Download Visual Studio 2019 or 2022 with ASP.NET and web development workload.
 
-2. .NET Framework
+2 .NET Framework
 Ensure .NET Framework 4.7.2 or higher is installed.
 
 3.SQL Server
