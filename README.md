@@ -178,9 +178,7 @@ Response Example:
 
 Endpoint:
 
-PUT /api/appointments/{id}
-
-
+**PUT /api/appointments/{id}**
 Request Body Example:
 
 {
@@ -225,7 +223,6 @@ Response Example:
     "AvailableSlots": ["2026-01-02T10:00:00","2026-01-03T14:00:00"]
   }
 ]
-
 
 Tip: Use Postman or cURL to test endpoints. Example:
 curl -X GET http://localhost:5000/api/appointments
