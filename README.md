@@ -118,13 +118,10 @@ Open the URL in your browser to access the application.
 Sample API Endpoints & Example JSON Responses
 This project exposes RESTful API endpoints for appointments, doctors, and patients.
 
-1. Get All Appointments
-
+1.Get All Appointments
 Endpoint:
 
-GET /api/appointments
-
-
+**GET /api/appointments**
 Response Example:
 
 [
