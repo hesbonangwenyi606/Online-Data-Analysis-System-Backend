@@ -231,16 +231,11 @@ Response Example:
 
 
 Tip: Use Postman or cURL to test endpoints. Example:
-
 curl -X GET http://localhost:5000/api/appointments
 
-Contribution Guidelines
-
+**Contribution Guidelines**
 Fork the repository and create a new branch:
-
 git checkout -b feature/your-feature-name
-
-
 Commit your changes:
 
 git commit -m "Add feature XYZ"
