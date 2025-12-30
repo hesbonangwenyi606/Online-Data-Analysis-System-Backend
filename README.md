@@ -21,17 +21,11 @@ Admin Features
 Manage doctors, patients, and appointments
 Generate reports and statistics
 View system activity and logs
-
 Technology Stack
-
 Frontend: ASP.NET MVC 5, Razor views, Bootstrap 4
-
 Backend: C#, ASP.NET MVC 5, Entity Framework 6
-
 Database: SQL Server (local or remote)
-
 Tools: Visual Studio 2019/2022, Git, Bitbucket
-
 Project Structure
 Doctor-Appointment-System/
 │
