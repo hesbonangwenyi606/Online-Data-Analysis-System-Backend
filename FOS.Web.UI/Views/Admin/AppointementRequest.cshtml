@@ -1,0 +1,564 @@
+﻿@model FOS.Shared.RequestData
+
+@{
+    ViewBag.Title = "Appointment Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb" style="background-color: #08c">
+            <li>
+                <a href="#">Admin</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Manage Department</a>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+@*@using (Ajax.BeginForm("AddUpdateDoctorSlot", "Admin", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true)*@
+<div class="form-horizontal">
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN SAMPLE FORMPORTLET-->
+            <div class="widget green" style="">
+                <div class="widget-title">
+                    <h4>Manage Request</h4>
+                    <span class="tools">
+                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                        @*<a href="javascript:;" class="icon-remove"></a>*@
+                    </span>
+                </div>
+                <div class="widget-body" style="height:300px">
+
+                    <!-- BEGIN FORM-->
+                    <!-- Select Region -->
+                    <div class="control-group">
+                        <label class="control-label">Select Department</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.DeptID, new SelectList(Model.Dept, "ID", "Name"))
+                            @Html.ValidationMessageFor(model => model.DeptID)
+                        </div>
+                    </div>
+
+                    <!-- Sub Department -->
+                    @*<div class="control-group">
+                            <label class="control-label">Sub Department *</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.SubDepartment)
+                                @Html.ValidationMessageFor(model => model.SubDepartment)
+                                @Html.HiddenFor(model => model.ID)
+                            </div>
+                        </div>*@
+                    <div class="control-group">
+                        <label class="control-label">Select Doctor</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.DoctorID, new SelectList(Model.Doctor, "EmpID", "EFName"))
+                            @Html.ValidationMessageFor(model => model.DoctorID)
+                            @Html.HiddenFor(model => model.DoctorID)
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Starting Date:</label>
+                        <div class="controls">
+                            <input type="date" class="text-box single-line" id="StartingDate" name="StartingDate" style="height: 22px; width: 202px; margin-bottom: 0px;">
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Ending Date:</label>
+                        <div class="controls">
+                            <input type="date" class="text-box single-line" id="EndingDate" name="EndingDate" style="height: 22px; width: 202px; margin-bottom: 0px;">
+
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                        <div class="form-actions" style="padding-left:238px">
+                            <button type="submit" id="btnNew2" class="btn btn-primary">
+                                <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Search</span>
+                            </button>
+                            <button type="button" id="c" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Report</button>
+                        </div>
+                    </div>
+
+                    <!-- END FORM-->
+                </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>
+</div>
+@* } *@
+<!-- BEGIN EDITABLE TABLE widget-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN EXAMPLE TABLE widget-->
+        <div class="widget green">
+            <div class="widget-title">
+                <h4>View Detail</h4>
+                <span class="tools">
+                    @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                    @*<a href="javascript:;" class="icon-remove"></a>*@
+                </span>
+            </div>
+            <div class="widget-body">
+                <div>
+                    <div class="clearfix">
+                        @*<div class="btn-group">
+                                <button id="editable-sample_new" class="btn green">
+                                    Add New <i class="icon-plus"></i>
+                                </button>
+                            </div>*@
+                        <div class="btn-group pull-right"></div>
+                    </div>
+                    <div class="space15"></div>
+                    <table class="table table-striped table-hover table-bordered" id="datatab" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ID)
+                                </th>
+                                <th style="width: 14% !important">Sr #</th>
+
+                                <th style="width: 15% !important">PatientName</th>
+                                <th style="width: 10% !important">MobileNo</th>
+                                <th style="width: 15% !important">Email</th>
+                                @*  <th style="width: 20% !important">Department</th>*@
+                                <th style="width: 15% !important">DoctorName</th>
+                                <th style="width: 15% !important">RequestedDate</th>
+                                <th style="width: 10% !important">Slot</th>
+                                <th style="width: 8% !important">Status</th>
+                                <th style="width: 10% !important">Action</th>
+                                @*<th style="width: 10% !important">Report</th>*@
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE widget-->
+
+    </div>
+</div>
+<!-- END EDITABLE TABLE widget-->
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">Update Patient Appointment</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget green" style="">
+                        <div class="widget-title">
+                            <h4>Manage Patient</h4>
+                            <span class="tools">
+                                @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                                @*<a href="javascript:;" class="icon-remove"></a>*@
+                            </span>
+                        </div>
+                        <div class="widget-body">
+                            @using (Ajax.BeginForm("UpdateAppointment", "Admin", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                @Html.ValidationSummary(true)
+                                <div class="span5" style="margin-left:3%; margin-top:2%;">
+                                    <!-- BEGIN FORM-->
+                                    <div class="control-group">
+                                        @*<label class="control-label">ID</label>*@
+                                        <div class="controls">
+                                            @Html.HiddenFor(model => model.ID)
+                                        </div>
+
+                                    </div>
+                                    <!-- EFName -->
+                                    <div class="control-group">
+                                        <label class="control-label">PatientName</label>
+                                        <div class="controls">
+                                            @Html.EditorFor(model => model.PatientName, new { htmlAttributes = new { @readonly = "readonly" } })
+
+                                        </div>
+
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Mobile No:</label>
+                                        <div class="controls">
+                                            @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @readonly = "readonly" } })
+
+                                        </div>
+
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Email:</label>
+                                        <div class="controls">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @readonly = "readonly" } })
+                                        </div>
+                                    </div>
+                                    @*<div class="control-group">
+                                        <label class="control-label">Department:</label>
+                                        <div class="controls">
+                                            @Html.EditorFor(model => model.Department)
+                                        </div>
+                                    </div>*@
+                                </div>
+                                <div class="span5" style="margin-top:2%;">
+                                    <div class="control-group">
+                                        <label class="control-label">Doctor Name:</label>
+                                        <div class="controls">
+                                            @Html.EditorFor(model => model.DoctorName)
+                                        </div>
+                                    </div>
+                                    <!--Joining Date-->
+                                    <div class="control-group">
+                                        <label class="control-label">Appointment Date:</label>
+                                        <div class="controls">
+                                            <input type="date" class="text-box single-line" id="RequestedDate" name="RequestedDate" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Slot:</label>
+                                        <div class="controls">
+                                            @Html.DropDownListFor(model => model.Slot, new SelectList(Model.SlotName, "ID", "Name"))
+                                        </div>
+
+                                    </div>
+                                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                                        <div class="form-actions" style="padding-left:238px">
+                                            <button type="submit" id="btnNew" class="btn btn-primary">
+                                                <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Update</span>
+                                            </button>
+                                            <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset2</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="modal-footer" >
+
+                                    </div>*@
+                                <!-- END FORM-->
+                            }
+                        </div>
+                    </div>
+                    <!-- END SAMPLE FORM PORTLET-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row" id="divReport">
+
+</div>
+<script>
+    $(function () {
+        $('#btnReport').click(function () {
+            debugger;
+            var DoctorID = $("#DoctorID").val();
+            var FromDate = $("#StartingDate").val();
+            var ToDate = $("#EndingDate").val();
+
+            //ASPX page URL to load report
+            var src = "../Reports1/RegisteredPatientReport.aspx?";
+            //We can add parameters here
+            src = src + "&DoctorID=" + DoctorID + "&FromDate=" + FromDate + "&ToDate=" + ToDate
+
+            //Create a dynamic iframe here and append this to div tag
+            var iframe = '<iframe id="reportFrame" width="100%" height="800px" scrolling="no" frameborder="0" src="' + src + '" allowfullscreen></iframe>';
+            document.getElementById('divReport').innerHTML = iframe;
+        });
+    });
+    $("#RequestedDate").change(function () {
+        LoadSlot();
+    });
+      function LoadSlot() {
+                        debugger;
+                        var doctorID = $('#DoctorID').val();
+                        var AppointmentDate = $("#RequestedDate").val();
+
+                        $.ajax({
+                            type: "POST",
+                            data: { DoctorID: doctorID, AppointmentDate: AppointmentDate },
+                            url: "@Url.Action("GetSlotDoctorWise", "Patient")",
+                            datatype: 'json',
+                            success: function (json) {
+                                debugger;
+                                $el = $("#Slot");
+                                $el.empty();
+                                //value = json.ID;
+                                //key = json.Name;
+                                $.each(json, function (value, key) {
+                                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                                });
+                            }
+                        });
+                    }
+    @*$("#btnReport").click(function () {
+        LoadReport();
+    });
+    function LoadReport() {
+
+        var DoctorID = $("#DoctorID").val();
+        var FromDate = $("#StartingDate").val();
+        var ToDate = $("#EndingDate").val();
+         $.ajax({
+                  type: "POST",
+             url: "@Url.Action("LoadPatientReport", "Admin")",
+             data: { DoctorID: DoctorID, FromDate: FromDate, ToDate: ToDate },
+                  success: function (data) {
+                  }
+
+         });
+    }*@
+        $("#DeptID").change(function () {
+        //debugger;
+        LoadDoctor()
+    });
+    function LoadDoctor()
+    {
+        //debugger;
+        var deptID = $("#DeptID").val();
+        $.ajax({
+            type: "Post",
+            data: {DeptID:deptID},
+            url: "@Url.Action("GetDoctorDepartmentWise","Admin")",
+            dataType: 'json',
+            success: function(json)
+            {
+            //    debugger;
+                var $el = $("#DoctorID");
+                $el.empty();
+                $.each(json,function(value,key)
+                {
+
+                    $el.append($("<option></option>").val(key.EmpID).text(key.EFName));
+                });
+            }
+        });
+    }
+
+        function GenerateDetailGrid() {
+
+            //$('#datatab tfoot th').each(function () {
+            //    $(this).html('<input type="text" />');
+            //});
+            var DoctorID = $("#DoctorID").val();
+            var oTable = $('#datatab').DataTable({
+                "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+                "iDisplayLength": 10,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "serverSide": true,
+                "bRetrieve": true,
+                "bDestroy": true,
+                "autoWidth": true,
+
+                "ajax": {
+                    "type": "POST",
+                    "url": '@Url.Action("AppointmentRequestHandler", "Admin")',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function(data) {
+
+                        data.ID = $('#ID').val();
+                       // sessionStorage.setItem("DoctorID", $("#DoctorID").val());
+                        data.DoctorID = $('#DoctorID').val();
+                        data.StartingDate = $('#StartingDate').val();
+                        data.EndingDate = $('#EndingDate').val();
+                        return data = JSON.stringify(data);
+                    },
+
+                },
+                "fnDrawCallback": function (osetting) {
+
+                    var UpdateCheck = "0";
+                    var DeleteCheck = "0";
+
+                    if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                    else {
+                        $(".edit").on("click", function () {
+
+                            ClearForm();
+                            var EmpID = $(this).attr("data-id");
+                            var PatientName = $(this).attr("data-PatientName");
+                            var MobileNo = $(this).attr("data-MobileNo");
+                            var Email = $(this).attr("data-Email");
+
+                            $("#ID").val($(this).attr("data-ID"));
+                            $("#PatientName").val($(this).attr("data-PatientName"));
+                            $("#MobileNo").val($(this).attr("data-MobileNo"));
+                            $("#Email").val($(this).attr("data-Email"));
+                            $("#RequestedDate").val($(this).attr("data-RequestedDate"));
+                            $("#DoctorName").val($(this).attr("data-DoctorName"));
+                            //$("#Prefix").val($(this).attr("data-Prefix"));
+                            //$('#myModalContent').html(data);
+                            //$('#myModal').modal(options);
+                            $("#loginModal").modal('show');
+                            //myFunction();
+
+
+                        });
+                    }
+
+                    if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".report").css("display", "none"); }
+                    else {
+                        $(".report").on("click", function () {
+
+                            var PatientID = $(this).attr("data-id");
+
+                            // confirm dialog
+                            //alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                                //if (e) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("PatientReport", "Admin")",
+                                        data: { PatientID: PatientID },
+                                        success: function (data) {
+                                        }
+
+                                    });
+
+                                //} else { }
+                            //});
+
+                        });
+                    }
+                },
+
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search Patient : " },
+                "sDom": 'lftipr',
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+               { "data": "ID", "bVisible": false },
+               { "data": "PatientName", "bSortable": false },
+               { "data": "PatientName" },
+               { "data": "MobileNo" },
+               { "data": "Email" },
+               //{ "data": "Department" },
+               { "data": "DoctorName" },
+               { "data": "RequestedDate" },
+               { "data": "SelectedSlot" },
+               { "data": "Status" },
+                    {
+                        "sClass": "center-align-td",
+                        "mData": null,
+                        "bSortable": false,
+                        "mRender": function (data, type, row) {
+                            return '<button class="btn btn-success edit" data-id=' + row.ID + ' data-PatientName=' + row.PatientName + ' data-MobileNo=' + row.MobileNo + ' data-Email=' + row.Email + ' data-Department=' + row.Department + ' data-DoctorName=' + row.DoctorName + ' data-RequestedDate=' + row.RequestedDate + ' data-Slot=' + row.SelectedSlot + '>' + '<i class=icon-pencil></i>' + '</button>' + '<button class="btn btn-danger report" data-id=' + row.ID + '>' + '<i class=icon-print></i>' + '</button>';
+                            //return '<button class="btn btn-success edit" data-ID=' + row.ID + 'data-PatientName=' + row.PatientName + 'data-MobileNo=' + row.MobileNo + 'data-Email=' + row.Email + 'data-Department=' + row.Department + 'data-DoctorName=' + row.DoctorName + 'data-RequestedDate=' + row.RequestedDate + 'data-Slot=' + row.Slot + 'data-status=' + row.Status + '>' + '<i class=icon-pencil></i>' + '</button>';
+                        }
+                    }
+                ],
+                "order": [3, "asc"]
+
+            });
+
+        }
+    $("#btnNew2").click(function () {
+        //debugger;
+        GenerateDetailGrid();
+        //var dt = $("#datatab").DataTable();
+        //dt.ajax.reload();
+
+    });
+        $(document).ready(function () {
+            $('#c').datepicker(
+                {
+                    dateFormat: 'dd-M-yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1950:2100'
+                });
+            $('#EndingDate').datepicker(
+                {
+                    dateFormat: 'dd-M-yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1950:2100'
+                });
+            $("#liSetup,#liRegion").addClass("active");
+            $('#myModal').modal('hide');
+            var WriteCheck = "0";
+
+            if (WriteCheck == "@HttpContext.Current.Session["WriteCheck"]") {
+                // $("#btnNew").css("display", "none");
+                $("#btnNew").attr("disabled", true);
+            }
+            else {
+            }
+
+            $("#btnRefresh").click(function () {
+                ClearForm();
+            });
+
+            GenerateDetailGrid();
+
+        });
+</script>
+<script type="text/javascript">
+
+    function ClearForm() {
+        $('#Name').val('');
+        $('#ShortCode').val('');
+        $('#ID').val(0);
+        $('#create').text('Create');
+    }
+
+    function OnSuccess(response) {
+        if (response == "1") {
+            alertify.success("Appointment Saved Successfully");
+            $('#create').text('Create');
+            var dt = $('#datatab').DataTable();
+            dt.ajax.reload();
+            ClearForm();
+        }
+        else if (response == "0") {
+            alertify.error("Unable To Save Appointment.");
+        }
+        else if (response == "2") {
+            alertify.error("Appointment Already Exist");
+        }
+        else {
+            alertify.error(response);
+        }
+
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+</script>

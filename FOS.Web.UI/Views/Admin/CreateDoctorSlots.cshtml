@@ -1,0 +1,264 @@
+﻿@model FOS.Shared.DoctorSlotsData
+
+@{
+    ViewBag.Title = "Doctor Slot";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href='~/Content/Style/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/Content/Style/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" type="text/css" />
+<script src="https://code.jquery.com/jquery-2.2.2.js"></script>
+<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+<script src='~/Scripts/lib/fullcalendar.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.8.1/jquery.timepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.8.1/jquery.timepicker.min.css" type="text/css" />
+<link href="~/Content/Style/jquery-ui.min.css" rel="stylesheet" />
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb" style="background-color: #08c">
+            <li>
+                <a href="#">Setup</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Manage Doctor Slot</a>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+@using (Ajax.BeginForm("AddUpdateDoctorSlot", "Admin", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN SAMPLE FORMPORTLET-->
+            <div class="widget green" style="">
+                <div class="widget-title">
+                    <h4>Manage Appointment</h4>
+                    <span class="tools">
+                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                        @*<a href="javascript:;" class="icon-remove"></a>*@
+                    </span>
+                </div>
+                <div class="widget-body" style="height:500px">
+
+                    <!-- BEGIN FORM-->
+                    <!-- Select Region -->
+                    <div class="control-group">
+                        <label class="control-label">Select Department</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.DeptID, new SelectList(Model.Departments, "ID", "Name"))
+                            @Html.ValidationMessageFor(model => model.DeptID)
+                        </div>
+                    </div>
+
+                    <!-- Sub Department -->
+                    @*<div class="control-group">
+            <label class="control-label">Sub Department *</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.SubDepartment)
+                @Html.ValidationMessageFor(model => model.SubDepartment)
+                @Html.HiddenFor(model => model.ID)
+            </div>
+        </div>*@
+                    <div class="control-group">
+                        <label class="control-label">Select Doctor</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.DoctorID, new SelectList(Model.Doctor, "EmpID", "EFName"))
+                            @Html.ValidationMessageFor(model => model.DoctorID)
+                            @Html.HiddenFor(model => model.DoctorID)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Select Day</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.DayID, new SelectList(Model.Days, "ID", "Name"))
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Slot Duration</label>
+                        <div class="controls">
+                            @Html.TextBox("Duration", "", new { @id = "duration", @type="text", @style = "width:200px;" })
+
+                        </div>
+
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Select Starting Time</label>
+                        <div class="controls">
+                            @Html.TextBox("StartingTime", "-- Select Time --", new { @id = "timepicker", @style = "width:200px;" })
+
+                        </div>
+
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Select Ending Time</label>
+                        <div class="controls">
+                            @Html.TextBox("EndingTime", "-- Select Time --", new { @id = "timepicker2", @style = "width:200px;" })
+                            @*@Html.DropDownList("EndingTime", new List<SelectListItem>
+                            {
+                                new SelectListItem{ Text="--Select Time--", Value = "" },
+                                new SelectListItem{ Text="2 PM", Value = "2 PM" },
+                                new SelectListItem{ Text="3 PM", Value = "3 PM" },
+                                new SelectListItem{ Text="4 PM", Value = "4 PM" },
+                             }, new { @style = "width:150px" })*@
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Select Doctor Slot</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.Slot, new MultiSelectList(Model.Slot, "ID", "Name"))
+                    
+                            @Html.HiddenFor(model => model.SlotID)
+                        </div>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                        <div class="form-actions" style="padding-left:238px">
+                            <button type="submit" id="btnNew" class="btn btn-primary">
+                                <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
+                            </button>
+                            <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- END FORM-->
+                </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>
+}
+<script language="javascript" type="text/javascript">
+    $("#document").ready(function () {
+        debugger;
+        $('#Slot').css("width", "220px");
+        $('#Slot').change(function () {
+            $('#SlotID').val($('#Slot').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+        $('#timepicker').timepicker();
+        $('#timepicker2').timepicker();
+    });
+    $("#DeptID").change(function () {
+        debugger;
+        LoadDoctor()
+    });
+    //$("#SlotID").click(function () {
+    //    debugger;
+    //});
+    $("#timepicker2").change(function () {
+        debugger;
+        var StartTime = $("#timepicker").val();
+        var EndTime = $("#timepicker2").val();
+        var Duration = $("#duration").val();
+        $.ajax({
+            type: "Post",
+            data: { StartTime: StartTime, EndTime: EndTime, Duration: Duration },
+            url: "@Url.Action("GetDoctorSlot","Admin")",
+            dataType: 'json',
+            success: function(result)
+            {
+                debugger;
+                var $el = $("#Slot");
+                $el.empty();
+                $.each(result,function(value,key)
+                {
+                   //var date = new Date(key);
+                    $el.append($("<option></option>").val(key.Name).text(key.Name));
+                });
+                $('#Slot').css("width", "220px");
+                $('#Slot').change(function () {
+                    $('#SlotID').val($('#Slot').multipleSelect('getSelects'));
+                }).multipleSelect({
+                    filter: true
+                });
+            }
+        });
+
+    });
+    function LoadDoctor()
+    {
+        debugger;
+        var deptID = $("#DeptID").val();
+        $.ajax({
+            type: "Post",
+            data: {DeptID:deptID},
+            url: "@Url.Action("GetDoctorDepartmentWise","Admin")",
+            dataType: 'json',
+            success: function(json)
+            {
+                debugger;
+                var $el = $("#DoctorID");
+                $el.empty();
+                $.each(json,function(value,key)
+                {
+
+                    $el.append($("<option></option>").val(key.EmpID).text(key.EFName));
+                });
+            }
+        });
+    }
+    $("#DoctorID").change(function () {
+        LoadDays();
+    });
+    function LoadDays()
+    {
+        var DoctorID = $("#DoctorID").val();
+        $.ajax({
+            type: 'Post',
+            data: { DoctorID: DoctorID },
+            url: "@Url.Action("GetDoctorDays","Admin")",
+            dataType: 'Json',
+            success: function(json)
+            {
+                debugger;
+                var $el = $("#DayID");
+                $el.empty();
+                $.each(json, function (value, key) {
+                    $el.append($("<option></option>").val(key.ID).text(key.Name));
+                });
+            }
+        });
+    }
+    function OnSuccess(response) {
+        if (response == "1") {
+            alertify.success("Doctor Slot Created Successfully");
+            $('#create').text('Create');
+            var dt = $('#datatab').DataTable();
+            dt.ajax.reload();
+            //ClearForm();
+        }
+        else if (response == "0") {
+            alertify.error("Unable To Create Doctor Slot.");
+        }
+        else if (response == "2") {
+            alertify.error("Doctor Slot Already Created");
+        }
+        else {
+            alertify.error(response);
+        }
+
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+</script>

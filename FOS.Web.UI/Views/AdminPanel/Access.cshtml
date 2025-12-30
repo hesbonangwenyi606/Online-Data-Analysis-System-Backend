@@ -1,0 +1,469 @@
+﻿@model FOS.Shared.AreaData
+@{
+    ViewBag.Title = "Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Setup</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Access Roles</a>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+
+@using (Ajax.BeginForm("AddUpdateAccesss", "AdminPanel", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN SAMPLE FORMPORTLET-->
+            <div class="widget green" style="">
+                <div class="widget-title">
+                    <h4>Access Roles</h4>
+                    <span class="tools">
+                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                        @*<a href="javascript:;" class="icon-remove"></a>*@
+                    </span>
+                </div>
+                <div class="widget-body">
+
+                    <!-- BEGIN FORM-->
+                    <!-- Select Region -->
+                    <div class="control-group">
+                        <label class="control-label">Select Region *</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.RegionID, new SelectList(Model.Regions, "ID", "Name"), new { @class = "" })
+                            @Html.ValidationMessageFor(model => model.RegionID)
+                        </div>
+                    </div>
+
+                    <!-- Select City -->
+                    <div class="control-group">
+                        <label class="control-label">Select Salesofficer *</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.SaleOfficerID, new SelectList(Model.SaleOfficersFrom, "sID", "Name"), new { @class = "" })
+                            @Html.ValidationMessageFor(model => model.SaleOfficerID)
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Reported UP *</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.intSaleOfficerIDfrom, new SelectList(Model.SaleOfficersFrom, "sID", "Name"), new { @class = "" })
+                            @Html.ValidationMessageFor(model => model.intSaleOfficerIDfrom)
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Reported Down *</label>
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.intSaleOfficerIDto, new SelectList(Model.SaleOfficersFrom, "sID", "Name"), new { @class = "" })
+                            @Html.ValidationMessageFor(model => model.intSaleOfficerIDto)
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                        <div class="form-actions" style="padding-left:238px">
+                            <button type="submit" id="btnNew" class="btn btn-primary">
+                                <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
+                            </button>
+                            <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- END FORM-->
+                </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>
+}
+
+
+
+<!-- BEGIN EDITABLE TABLE widget-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN EXAMPLE TABLE widget-->
+        <div class="widget green">
+            <div class="widget-title">
+                <h4>View Detail</h4>
+                <span class="tools">
+                    @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                    @*<a href="javascript:;" class="icon-remove"></a>*@
+                </span>
+            </div>
+            <div class="widget-body">
+                <div>
+                    <div class="clearfix">
+                        @*<div class="btn-group">
+                                <button id="editable-sample_new" class="btn green">
+                                    Add New <i class="icon-plus"></i>
+                                </button>
+                            </div>*@
+                        <div class="btn-group pull-right"></div>
+                    </div>
+                    <div class="space15"></div>
+                    <table class="table table-striped table-hover table-bordered" id="datatab" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.ID)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.RegionID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SOID)
+                                    </th>*@
+                                <th style="width: 5% !important">Sr #</th>
+
+                                <th style="width:20% !important">
+                                    RegionName
+                                </th>
+                                <th style="width:20% !important">
+                                    SaleOfficer
+                                </th>
+                                <th style="width:20% !important">
+                                    ReportedTo
+                                </th>
+                                <th style="width:20% !important">
+                                    Reported For
+                                </th>
+                                <th style="width:10% !important">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE widget-->
+    </div>
+</div>
+<!-- END EDITABLE TABLE widget-->
+
+<script>
+
+    function GenerateDetailGrid() {
+
+        //$('#datatab tfoot th').each(function () {
+        //    $(this).html('<input type="text" />');
+        //});
+        var oTable = $('#datatab').DataTable({
+            "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+            "iDisplayLength": 10,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "serverSide": true,
+            "bRetrieve": true,
+            "bDestroy": true,
+            "autoWidth": true,
+
+            "ajax": {
+                "type": "POST",
+                "url": '@Url.Action("AccessDataHandler", "AdminPanel")',
+                "contentType": 'application/json; charset=utf-8',
+                'data': function (data) {
+                    data.CityID = $('#RegionID').val();
+                    return data = JSON.stringify(data);
+
+                },
+
+            },
+            "fnDrawCallback": function (osetting) {
+                var UpdateCheck = "0";
+                var DeleteCheck = "0";
+
+                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                else {
+                    $(".edit").on("click", function () {
+
+                        ClearForm();
+                        debugger;
+                        $('#ID').val($(this).attr("data-id"));
+                        $('#create').text('Update');
+                        $("#SOID").val($(this).attr("data-name"));
+                        $("#SOID1").val($(this).attr("data-Salesofficer"));
+                        $("#SOID").val($(this).attr("data-Reportedto"));
+                        $("#SOID").val($(this).attr("data-Reportedfor"));
+                        $('html, body').animate({
+                            scrollTop: $("#main-content").offset().top
+                        }, 500);
+                        $("#SOID").focus();
+
+                    });
+                }
+
+                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                else {
+                    $(".delete").on("click", function () {
+
+                        var AreaID = $(this).attr("data-id");
+                        debugger;
+                        // confirm dialog
+                        alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                            if (e) {
+                                debugger;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("DeleteAccess", "AdminPanel")",
+                                    data: { ID: AreaID },
+                                        success: function (data) {
+
+                                            if (data == "0") {
+                                                alertify.success('Record Deleted Successfully');
+                                                var table = $('#datatab').DataTable();
+                                                table.row(this).remove().draw(false);
+                                            }
+
+                                            else { alertify.error('This Area Assign To Someone, First Delete That Then You Can Able To Delete This Area.'); }
+                                        }
+
+                                    });
+
+                                } else { }
+                            });
+
+                        });
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search  : " },
+                "sDom": 'lftipr',
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+              // { "data": "ID", "bVisible": false },
+              // { "data": "RegionID", "bVisible": false },
+              // { "data": "SOID", "bVisible": false },
+               { "data": "RegionName", "bSortable": false },
+               { "data": "RegionName" },
+               { "data": "SaleOfficerName" },
+               { "data": "ReportedToName" },
+               { "data": "ReportedForName" },
+               {
+                   "sClass": "center-align-td",
+                   "mData": null,
+                   "bSortable": false,
+                   "mRender": function (data, type, row) {
+                       return '<button class="btn btn-info delete" data-id=' + row.ID + '>' + '<i class=icon-trash></i>' + '</button>';
+                   }
+               }
+                ],
+                "order": [4, "asc"]
+
+            });
+
+        }
+
+        function LoadSaleOfficers() {
+            try {
+                var regionID = $("#RegionID").val();
+
+                $.ajax({
+                    type: "POST",
+                    data: { RegionID: regionID },
+                    url: "@Url.Action("GetSaleOfficerRegionWise", "AdminPanel")",
+                    dataType: 'json',
+                    success: function (json) {
+
+                        var $el = $("#SaleOfficerID");
+                        $el.empty(); // remove old options
+                        $.each(json, function (value, key) {
+
+                            $el.append($("<option></option>")
+                                    .val(key.sID).text(key.Name));
+                        });
+
+                        if ($('#SaleOfficerID').val() != null) {
+                            $('#datatab').dataTable().fnDestroy();
+                            GenerateDetailGrid();
+                        }
+                        else {
+                            $('#datatab').dataTable().empty();
+                        }
+
+                    }
+
+                });
+            } catch (e) {
+                alert(e);
+                $('#datatab').dataTable().fnDestroy();
+            }
+
+        }
+    function LoadSaleOfficers1() {
+        try {
+            var regionID = $("#RegionID").val();
+
+            $.ajax({
+                type: "POST",
+                data: { RegionID: regionID },
+                url: "@Url.Action("GetSaleOfficerRegionWise", "AdminPanel")",
+                dataType: 'json',
+            success: function (json) {
+
+                var $el = $("#intSaleOfficerIDfrom");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+
+                    $el.append($("<option></option>")
+                            .val(key.sID).text(key.Name));
+                });
+
+                if ($('#intSaleOfficerIDfrom').val() != null) {
+                    $('#datatab').dataTable().fnDestroy();
+                    GenerateDetailGrid();
+                }
+                else {
+                    $('#datatab').dataTable().empty();
+                }
+
+            }
+
+        });
+    } catch (e) {
+        alert(e);
+        $('#datatab').dataTable().fnDestroy();
+    }
+
+    }
+    function LoadSaleOfficers2() {
+        try {
+            var regionID = $("#RegionID").val();
+
+            $.ajax({
+                type: "POST",
+                data: { RegionID: regionID },
+                url: "@Url.Action("GetSaleOfficerRegionWise", "AdminPanel")",
+                dataType: 'json',
+            success: function (json) {
+
+                var $el = $("#intSaleOfficerIDto");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+
+                    $el.append($("<option></option>")
+                            .val(key.sID).text(key.Name));
+                });
+
+                if ($('#intSaleOfficerIDto').val() != null) {
+                    $('#datatab').dataTable().fnDestroy();
+                    GenerateDetailGrid();
+                }
+                else {
+                    $('#datatab').dataTable().empty();
+                }
+
+            }
+
+        });
+    } catch (e) {
+        alert(e);
+        $('#datatab').dataTable().fnDestroy();
+    }
+
+    }
+
+        $(document).ready(function () {
+
+            $("#liSetup,#liArea").addClass("active");
+
+            var WriteCheck = "0";
+
+            if (WriteCheck == "@HttpContext.Current.Session["WriteCheck"]") {
+            // $("#btnNew").css("display", "none");
+            $("#btnNew").attr("disabled", true);
+        }
+        else {
+        }
+
+        $("#RegionID").change(function () {
+            $('#Name').val('');
+            $('#ShortCode').val('');
+            LoadSaleOfficers();
+            LoadSaleOfficers1();
+            LoadSaleOfficers2();
+        });
+
+        $("#btnRefresh").click(function () {
+            ClearForm();
+        });
+        GenerateDetailGrid();
+
+        $("#ShortCode").bind('keyup', function (e) {
+            if (e.which >= 97 && e.which <= 122) {
+                var newKey = e.which - 32;
+                // I have tried setting those
+                e.keyCode = newKey;
+                e.charCode = newKey;
+            }
+
+            $("#ShortCode").val(($("#ShortCode").val()).toUpperCase());
+        });
+
+    });
+
+</script>
+<script type="text/javascript">
+
+
+
+        function ClearForm() {
+            $('#Name').val('');
+            $('#ShortCode').val('');
+            $('#ID').val(0);
+            $('#create').text('Create');
+        }
+
+        function OnSuccess(response) {
+            if (response == "1") {
+                alertify.success("Role Added Successfully");
+                $('#create').text('Create');
+                var dt = $('#datatab').DataTable();
+                dt.ajax.reload();
+                ClearForm();
+            }
+            else if (response == "0") {
+                alertify.error("Unable To Save Area.");
+            }
+            else if (response == "2") {
+                alertify.error("Area Code Already Exist");
+            }
+            else {
+                alertify.error(response);
+            }
+
+        }
+
+        function OnFailure(response) {
+            if (response.status == 422) {
+                var errors = JSON.parse(response.responseText);
+                alertify.error(errors.errors);
+            }
+            else {
+                alertify.error(response);
+            }
+        }
+</script>

@@ -1,0 +1,21 @@
+syntax: glob
+*_ReSharper*
+*.user
+*.cache
+*.Cache
+*.manifest
+*.suo
+*.pdb
+bin/*
+Bin/*
+obj/*
+Obj/*
+.vs/*
+FOS.Web.UI/Logs/*
+FOS.Web.UI/Content/filez*
+*.orig
+*.user
+*.suo
+*.config
+desktop.ini
+packages/

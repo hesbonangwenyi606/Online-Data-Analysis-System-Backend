@@ -1,0 +1,59 @@
+﻿@model List<FOS.Shared.UserPage>
+@{
+    Layout = null;
+}
+
+
+@{
+    string page = HttpContext.Current.Request["URL"];
+    string virualDir = FOS.Web.UI.Common.Settings.VistualDirectory;
+
+    if (page.StartsWith(string.Format("/{0}/", virualDir)))
+    {
+        page = page.Replace(string.Format("/{0}/", virualDir), "/");
+    }
+}
+
+
+
+@if (Model != null)
+{
+    <ul class="sidebar-menu" @*style="background-color:#5F5F5F"*@>
+        @foreach (var module in Model.Where(m => m.ParentPageID == 0 && m.Read && m.ShowMenu))
+        {
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+
+        <li class="sub-menu @(page.StartsWith(module.MenuInitials) ? "active" : "")" @*style="line-height: 45px;"*@>
+
+            @if (module.TotalChildPages == 0)
+            {
+                <a class="" href="@FOS.AdminPanel.ManageLogin.GetMenuLink(module)"><i class="@module.Icon"></i> @module.PageName</a>
+            }
+            else
+            {
+                <a href="#">
+                    <i class="@module.Icon"></i>
+                    <span>@module.PageName</span>
+                    <span class="arrow"></span>
+                </a>
+            }
+            <ul class="sub">
+                @foreach (var subPage in Model.Where(p => p.ParentPageID == module.PageID && p.Read && p.ShowMenu))
+                {
+                    if (subPage.Path == "/Job/MonthlyJobWork")
+                    {
+                        <li class="@(page.StartsWith(@subPage.Path) ? "active" : "")"><a id="@subPage.PageName.Replace(" ","")" data-toggle="modal" data-target="#JobTypeModal" style="color:white"> @subPage.PageName </a></li>
+                    }
+                    else{
+                    <li class="@(page.StartsWith(@subPage.Path) ? "active" : "")"><a id="@subPage.PageName.Replace(" ","")" href="@FOS.AdminPanel.ManageLogin.GetMenuLink(subPage)" style="color:white"> @subPage.PageName </a></li>
+                    }
+                }
+            </ul>
+        </li>
+
+
+        }
+    </ul>
+}
+
+

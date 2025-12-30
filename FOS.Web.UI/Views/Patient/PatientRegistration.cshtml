@@ -1,0 +1,152 @@
+﻿@model FOS.Shared.PatientData
+@{
+    ViewBag.Title = "Patient";
+    Layout = null;
+}
+
+@RenderPage("~/Views/Shared/ClientLayoutHeader.cshtml")
+
+
+<!-- ie8 fixes -->
+<!--[if lt IE 9]>
+<script src="js/excanvas.js"></script>
+<script src="js/respond.js"></script>
+<![endif]-->
+<!--common script for all pages-->
+<script src="~/Scripts/js/common-scripts.js"></script>
+<script src="~/Scripts/multiple-select.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.reset.js"></script>
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Patient</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Manage Patient</a>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+@using (Ajax.BeginForm("AddUpdatePatient", "Patient", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN SAMPLE FORMPORTLET-->
+            <div style="margin-left:10%; width:20%">
+                @*<div class="widget-title">
+                    <h4>Manage Patient</h4>
+                    <span class="tools">
+                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                @*<a href="javascript:;" class="icon-remove"></a>
+                        </span>
+                    </div>*@
+                <div class="widget-body">
+
+                    <!-- BEGIN FORM-->
+                    <!-- Select Region -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">PatientName</label>
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Name)
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">UserName</label>
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.UserName)
+                            @Html.ValidationMessageFor(model => model.UserName)
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Password</label>
+                        <div class="col-sm-10">
+                            @Html.PasswordFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span12">
+                <div style="margin-left:35%; width:20%; margin-top:-19%">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">ConfirmPassword</label>
+                        <div class="col-sm-10">
+                            @Html.PasswordFor(model => model.ConPass)
+                            @Html.ValidationMessageFor(model => model.ConPass)
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">MobileNo</label>
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.MobileNo)
+                            @Html.ValidationMessageFor(model => model.MobileNo)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Email</label>
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Email)
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                    <div class="form-actions" style="padding-left:238px">
+                        <button type="submit" id="btnNew" class="btn btn-primary">
+                            <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
+                        </button>
+                        <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                    </div>
+                </div>
+
+                <!-- END FORM-->
+            </div>
+            @*</div>*@
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>
+}
+<script>
+    function ClearForm() {
+        $("#Name").val('');
+        $("#UserName").val('');
+        $("#Password").val('');
+        $("#ConPass").val('');
+        $("#MobileNo").val('');
+        $("#Email").val('');
+    }
+    function OnSuccess(response) {
+        debugger;
+        if (response == "1") {
+            ClearForm();
+            alert("Patient Added Successfully");
+        }
+        else {
+            alertify.success("Patient Not Added");
+        }
+        ClearForm();
+    }
+</script>
+<br />
+@RenderPage("~/Views/Shared/ClientLayoutFooter.cshtml")

@@ -1,0 +1,199 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/Style/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Style/alertify.css" rel="stylesheet" />
+    <link href="~/Content/Style/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleLogin/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Style/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/StyleLogin/set2.css" />
+
+</head>
+<body>
+  
+    <div class="loader"></div>
+    <div id="main-content">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="span4 offset4">
+                        <img style="margin-left:38%; margin-top:15%" src="~/Images/AlkhidmatCard.png" />
+                        @*<img src="~/Images/Logo.jpg" />*@
+                        <div class="span12" style="background-color: white; box-shadow: 0px 0px 15px #4b7930; height: 340px; border-radius: 10px; margin-top: 15px; padding-top: 20px; border-bottom: solid 25px #808080; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                            <h2 style="color: white; text-align: center; text-shadow: 1px 1px 2px black, 0 0 25px #429835, 0 0 5px #429835;">System Security</h2>
+
+                            <div class="span12">
+                                <span class="input input--nao">
+                                    <input class="input__field input__field--nao" type="text" id="txtUserName" />
+                                    <label class="input__label input__label--nao" for="txtUserName">
+                                        <span class="input__label-content input__label-content--nao">User Name</span>
+                                    </label>
+                                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <div class="span12">
+                                <span class="input input--nao">
+                                    <input class="input__field input__field--nao" type="password" id="txtPassword" />
+                                    <label class="input__label input__label--nao" for="txtPassword">
+                                        <span class="input__label-content input__label-content--nao">Password</span>
+                                    </label>
+                                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                                    </svg>
+                                </span>
+
+                            </div>
+
+                            <div class="span3 offset8">
+
+                                <button class="icon-btn span12 pull-right" id="btnLogin">
+                                    <i class="icon-unlock"></i>
+                                    <div id="login">Login</div>
+                                </button>
+
+                            </div>
+
+                            <div class="span12" style="height: 16px; margin-left: 0px;"></div>
+                            <div class="span12" style="">
+
+                                @{
+                                    if (@Request["reason"] == "login")
+                                    {
+                                        <h6 style="text-align:center">Your Login Information Is Incorrect.</h6>
+                                    }
+                                    else if (@Request["reason"] == "auth")
+                                    {
+                                        <h6 style="text-align:center">You Are Not Authorize To Use This Page. Please Go To <span><a href="../AdminPanel/Login">Sign In</a></span></h6>
+                                    }
+
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/js/jquery-1.8.3.min.js"></script>
+    <script src="~/Scripts/js/alertify.js"></script>
+    <script src="~/Scripts/js/classie.js"></script>
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="~/Scripts/js/jquery.scrollTo.min.js"></script>
+
+    <script>
+        $(window).load(function () {
+            $(".loader").fadeOut("fast");
+        })
+
+        var $loading = $('.loader');
+        $(document)
+          .ajaxStart(function () {
+              $loading.show();
+          })
+          .ajaxStop(function () {
+              $loading.hide();
+          });
+
+        $(document).ready(function () {
+
+
+            $(document).keypress(function (e) {
+                if (e.which == 13) {
+                    $("#btnLogin").click();
+                }
+            });
+
+
+
+            $("#btnLogin").click(function () {
+            
+                $.ajax({
+                   
+                    url: "@Url.Action("UserAuth", "AdminPanel")",
+                    type: "post",
+                    data: { userName: $("#txtUserName").val(), password: $("#txtPassword").val(), returnUrl: '@Request["ReturnUrl"]' },
+                    success: function (data) {
+                        
+                        if (data.status > 0) {
+                            alertify.success('Login Successfull.');
+                            window.location = data.url ;//'../Home/Home';
+                        }
+
+                        if (data.status == -1) {
+                            alertify.error('This User Name Does Not Exist.');
+
+                        }
+
+                        if (data.status == -2) {
+                            alertify.error('Password Is incorrect.');
+                        }
+                    },
+                    beforeSend: function () {
+                        $("#btnLogin").hide();
+                        $("#login").text("Wait...");
+                    },
+                    complete: function () {
+                        $("#btnLogin").show();
+                        $("#login").text("Login");
+                    },
+                });
+            });
+        });
+
+        (function () {
+            // trim polyfill :
+            if (!String.prototype.trim) {
+                (function () {
+                    // Make sure we trim BOM and NBSP
+                    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                    String.prototype.trim = function () {
+                        return this.replace(rtrim, '');
+                    };
+                })();
+            }
+
+            [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+                // in case the input is already filled..
+                if (inputEl.value.trim() !== '') {
+                    classie.add(inputEl.parentNode, 'input--filled');
+                }
+
+                // events:
+                inputEl.addEventListener('focus', onInputFocus);
+                inputEl.addEventListener('blur', onInputBlur);
+            });
+
+            function onInputFocus(ev) {
+                classie.add(ev.target.parentNode, 'input--filled');
+            }
+
+            function onInputBlur(ev) {
+                if (ev.target.value.trim() === '') {
+                    classie.remove(ev.target.parentNode, 'input--filled');
+                }
+            }
+        })();
+
+    </script>
+
+</body>
+</html>

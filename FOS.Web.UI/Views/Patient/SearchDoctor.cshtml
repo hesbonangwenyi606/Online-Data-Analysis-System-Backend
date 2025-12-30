@@ -1,0 +1,479 @@
+﻿@model FOS.Shared.AppointmentData
+@{
+    Layout = null;
+}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Doctor</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="../Content/ClientSideContent/img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- CSS here -->
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/magnific-popup.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/themify-icons.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/nice-select.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/flaticon.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/gijgo.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/animate.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/slicknav.css">
+    <link rel="stylesheet" href="../Content/ClientSideContent/css/style2.css">
+</head>
+
+<body>
+    <!-- header-start -->
+    <header>
+        <div class="header-area ">
+            <div class="header-top_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6 ">
+                            <div class="social_media_links">
+                                <a href="#">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="short_contact_list">
+                                <ul>
+                                    <li><a href="#"> <i class="fa fa-envelope"></i> info@docmed.com</a></li>
+                                    <li><a href="#"> <i class="fa fa-phone"></i> 160160</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sticky-header" class="main-header-area">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3 col-lg-2">
+                            <div class="logo">
+                                <a href="index.html">
+                                    <img src="../Content/ClientSideContent/img/logo.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="active" href="@Url.Action("Index","Patient")">Home</a></li>
+                                        <li><a href="@Url.Action("Department","Patient")">Department</a></li>
+                                        <li>
+                                            <a href="@Url.Action("Blog","Patient")">blog</a>
+                                        </li>
+                                        <li><a href="@Url.Action("Doctors","Patient")">Doctors</a></li>
+                                        <li><a href="@Url.Action("About","Patient")">About</a></li>
+                                        <li><a href="@Url.Action("Contact","Patient")">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="Appointment">
+                                <div class="book_btn d-none d-lg-block">
+                                    <a class="popup-with-form" href="@Url.Action("SearchDoctor","Patient")">Make an Appointment</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->
+    <!-- bradcam_area_start  -->
+    <div class="bradcam_area breadcam_bg_2 bradcam_overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Doctors</h3>
+                        <p><a href="@Url.Action("Index","Patient")">Home /</a> Doctors</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- bradcam_area_end  -->
+    <!-- Doctors area start -->
+    <div class="section">
+        <div class="container" id="features">
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-12">
+                    <h2>Search</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            @*<form class="validate" name="doctorsearch" id="doctorsearch" method="get" action="https://raazihospitalrwp.clinta.biz/doctors">*@
+                            @*@using (Ajax.BeginForm("GetDoctorForGrid", "Patient", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @class = "form-horizontal" }))
+                                {*@
+                            <div class="row">
+
+                                <div class="col-lg-6 col-sm-6 col-md-6">
+                                    <label class="control-label">Speciality</label>
+                                    <div class="dropdown">
+                                        @Html.DropDownListFor(model => model.Department, new SelectList(Model.Department, "ID", "Name"), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6 col-md-6">
+                                    <label class="control-label">Available Doctor</label>
+                                    @Html.DropDownListFor(model => model.Doctor, new SelectList(Model.Doctor, "EmpID", "DoctorName"), new { @class = "form-control" })
+    
+                                </div>
+
+                            </div>
+                            @*}*@
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="clearfix"><br></div>
+
+            <div id="tabs" class="ui-tabs ui-corner-all ui-widget ui-widget-content ui-tabs-vertical ui-helper-clearfix">
+                <ul style="overflow: auto;max-height: 640px;" role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"><li role="tab" tabindex="0" class="ui-tabs-tab ui-state-default ui-tab ui-tabs-active ui-state-active ui-corner-left" aria-controls="doct-241" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a href="#doct-241" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="drUrl">Dr Usman Zafar</a></li></ul>
+
+                <div id="doct-241" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <h2 id="DrName"><strong id="Doctor">Dr Ali Zaman</strong></h2>
+                            <div><img class="img-thumbnail" style="margin-bottom: 20px; width: 200px;" id="titleImg" src="~/Images/defaul.jpeg"></div>
+                            <div>
+                                <h4 class="text-primary "><strong id="dept">Medical Genetics</strong></h4>
+
+                                @*<p class="text-primary " >Contact No</p>
+                                    <p class="" id="phoneNo">03212776413</p>*@
+                                <p class="text-primary ">Qualification</p>
+                                <p class="" id="qualification">MBBS In Dental</p>
+                                <p class="text-primary ">Website</p><p class=""><a href="http://raazihospital.com" target="_blank">http://drusmanzafar.clinta.biz</a></p>
+                                <a class="btn  btn-primary" style="color:white;" id="appointmentUrl">Get An Appointment</a>
+                            </div>
+                        </div><div class="col-md-8 col-sm-12">
+                            <h2>Availability</h2>
+                            <table class="table table-bordered table-striped appointment-table" id="tblEmployee">
+                                <thead>
+                                    <tr style="background-color:#08c; color:#ffffff">
+                                        <th colspan="2" class="text-center">WeekDay</th>
+                                        <th colspan="2" class="text-center">Starting Time</th>
+                                        <th colspan="2" class="text-center">Ending Time</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center" colspan="2"><strong>Monday</strong></td>
+                                        <td class="text-center" colspan="2"><strong>04:00 PM</strong></td>
+                                        <td class="text-center" colspan="2"><strong>06:00 PM</strong></td>                              
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+               
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="content"></div>
+    </div>
+    <!-- Doctors area end   -->
+    <!-- Emergency_contact start -->
+    <div class="Emergency_contact" style="margin-top:5%">
+        <div class="conatiner-fluid p-0">
+            <div class="row no-gutters">
+                <div class="col-xl-6">
+                    <div class="single_emergency d-flex align-items-center justify-content-center emergency_bg_1 overlay_skyblue">
+                        <div class="info">
+                            <h3>For Any Emergency Contact</h3>
+                            <p>Esteem spirit temper too say adieus.</p>
+                        </div>
+                        <div class="info_button">
+                            <a href="#" class="boxed-btn3-white">+10 378 4673 467</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="single_emergency d-flex align-items-center justify-content-center emergency_bg_2 overlay_skyblue">
+                        <div class="info">
+                            <h3>Make an Online Appointment</h3>
+                            <p>Esteem spirit temper too say adieus.</p>
+                        </div>
+                        <div class="info_button">
+                            <a href="@Url.Action("SearchDoctor","Patient")" class="boxed-btn3-white">Make an Appointment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Emergency_contact end -->
+    <!-- footer start -->
+    <footer class="footer">
+        <div class="footer_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-md-6 col-lg-4">
+                        <div class="footer_widget">
+                            <div class="footer_logo">
+                                <a href="#">
+                                    <img src="../Content/ClientSideContent/img/footer_logo.png" alt="">
+                                </a>
+                            </div>
+                            <p>
+                                Firmament morning sixth subdue darkness
+                                creeping gathered divide.
+                            </p>
+                            <div class="socail_links">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <i class="ti-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="ti-twitter-alt"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-2 offset-xl-1 col-md-6 col-lg-3">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Departments
+                            </h3>
+                            <ul>
+                                <li><a href="#">Eye Care</a></li>
+                                <li><a href="#">Skin Care</a></li>
+                                <li><a href="#">Pathology</a></li>
+                                <li><a href="#">Medicine</a></li>
+                                <li><a href="#">Dental</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-lg-2">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Useful Links
+                            </h3>
+                            <ul>
+                                <li><a href="@Url.Action("About","Patient")">About</a></li>
+                                <li><a href="@Url.Action("Blog","Patient")">Blog</a></li>
+                                <li><a href="@Url.Action("About","Patient")">About</a></li>
+                                <li><a href="@Url.Action("Contact","Patient")"> Contact</a></li>
+                                <li><a href="@Url.Action("SearchDoctor","Patient")"> Appointment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-lg-3">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Address
+                            </h3>
+                            <p>
+                                200, D-block, Green lane USA <br>
+                                +10 367 467 8934 <br>
+                                docmed@contact.com
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy-right_text">
+            <div class="container">
+                <div class="footer_border"></div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p class="copy_right text-center">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer end  -->
+    <!-- link that opens popup -->
+    <!-- JS here -->
+    <script src="../Content/ClientSideContent/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="../Content/ClientSideContent/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="../Content/ClientSideContent/js/popper.min.js"></script>
+    <script src="../Content/ClientSideContent/js/bootstrap.min.js"></script>
+    <script src="../Content/ClientSideContent/js/owl.carousel.min.js"></script>
+    <script src="../Content/ClientSideContent/js/isotope.pkgd.min.js"></script>
+    <script src="../Content/ClientSideContent/js/ajax-form.js"></script>
+    <script src="../Content/ClientSideContent/js/waypoints.min.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.counterup.min.js"></script>
+    <script src="../Content/ClientSideContent/js/imagesloaded.pkgd.min.js"></script>
+    <script src="../Content/ClientSideContent/js/scrollIt.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.scrollUp.min.js"></script>
+    <script src="../Content/ClientSideContent/js/wow.min.js"></script>
+    <script src="../Content/ClientSideContent/js/nice-select.min.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.slicknav.min.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.magnific-popup.min.js"></script>
+    <script src="../Content/ClientSideContent/js/plugins.js"></script>
+    <script src="../Content/ClientSideContent/js/gijgo.min.js"></script>
+    <!--contact js-->
+    <script src="../Content/ClientSideContent/js/contact.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.ajaxchimp.min.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.form.js"></script>
+    <script src="../Content/ClientSideContent/js/jquery.validate.min.js"></script>
+    <script src="../Content/ClientSideContent/js/mail-script.js"></script>
+    <script src="../Content/ClientSideContent/js/main.js"></script>
+
+    <script>
+    function GetEmployee() {
+        var DeptID = $('#Department').val();
+        $.ajax({
+            type: "POST",
+            data: { DeptID: DeptID },
+            url: "@Url.Action("GetDoctorDepartmentWise", "Admin")",
+            datatype: 'json',
+            success: function (json) {
+                debugger;
+                var Doc = json.DoctorName;
+                var $el = $("#Doctor");
+                $el.empty();
+                $.each(json, function (index, item) {
+                    $el.append($("<option></option>").val(item.EmpID).text(item.EFName));
+                })
+            }
+        })
+    }
+    $("#Department").change(function () {
+        GetEmployee();
+    });
+    $(document).ready(function () {
+        //LoadDoctorTimeTable();
+    });
+    //$("#btnNew").click(function () {
+    $("#Doctor").change(function () {
+
+        debugger;
+        //var DrName = $('#DrName').val();
+        var DrName = $('#Doctor').val();
+        var Department = $('#Department').val();
+        $.ajax({
+            type: "POST",
+            data: { DrName: DrName, Department: Department },
+            url: "@Url.Action("GetDoctorForGrid","Patient")",
+            datatype: 'json',
+            success: function (json) {
+                debugger;
+                var tblEmployee = $("#tblEmployee");
+                tblEmployee.find("tr:gt(0)").remove();
+                //$("#DrName").html(json.DoctorName);
+                $("#drUrl").html(json.DoctorName);
+                $("#Doctor").html(json.DoctorName);
+
+                $("#dept").html(json.Department);
+                $("#qualification").html(json.Qualification);
+                var EmpID = json.EmpID;
+                $('#titleImg').attr("src", json.Image);
+                //$('#titleImg').html('src', json.Image);
+                $('#appointmentUrl').attr('href', '../Patient/Appointment/' + EmpID);
+                sessionStorage.setItem("EmpID", json.EmpID);
+
+                var doctorID = json.EmpID;
+                        $.ajax({
+                            type: 'POST',
+                            data: { DoctorID: doctorID },
+                            url: "@Url.Action("GetDoctorTimeTable","Patient")",
+                            datatype: 'json',
+                            success: function (json) {
+                                debugger;
+                                var tblEmployee = $("#tblEmployee");
+                                tblEmployee.find("tr:gt(0)").remove();
+                                //$("#DrName").html(item.DoctorName);
+                                GetEmployee();
+                                $.each(json, function (index, item) {
+                                    debugger;
+                                    $("#DrName").html(item.DoctorName);
+
+                                    $("#tblEmployee").append("<tr><td colspan=\"2\" class=\"text-center\"><strong>" + item.Name + "</strong></td>" + "<td colspan=\"2\" class=\"text-center\"><strong>" + item.StartingTime + "</strong></td>" + " " + "<td colspan=\"2\" class=\"text-center\"><strong>" + item.EndingTime + "</strong></td ></tr > ");
+                                });
+
+                            }
+                        });
+
+                $.each(json, function (index, item) {
+                    debugger;
+                    var EmpID = item.EmpID;
+                    var Dept = item.Department;
+                    var tr = $("<tr></tr>");
+
+                    tblEmployee.append(tr);
+                });
+            }
+        });
+        //LoadDoctorTimeTable();
+    });
+    </script>
+    <script>
+
+        function OnSuccess(response) {
+            if (response == "1") {
+                alertify.success("Doctor Registered Successfully");
+                $('#create').text('Create');
+                var dt = $('#datatab').DataTable();
+                dt.ajax.reload();
+                ClearForm();
+            }
+            else if (response == "0") {
+                alertify.error("Unable To Register Doctor.");
+            }
+            else if (response == "2") {
+                alertify.error("Doctor Already Exist");
+            }
+            else {
+                alertify.error(response);
+            }
+
+        }
+
+        function OnFailure(response) {
+            if (response.status == 422) {
+                var errors = JSON.parse(response.responseText);
+                alertify.error(errors.errors);
+            }
+            else {
+                alertify.error(response);
+            }
+        }
+    </script>
+
+</body>
+</html>

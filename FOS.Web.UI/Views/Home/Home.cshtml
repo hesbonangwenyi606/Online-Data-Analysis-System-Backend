@@ -1,0 +1,820 @@
+﻿@model IEnumerable<FOS.DataLayer.Sp_Top10Sales_Result>
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<link href="~/Content/Style/morris.css" rel="stylesheet" />*@
+
+<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+ <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="page-title"></h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+            </ul>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    
+<div class="row-fluid">
+                    <div class="span4">
+                        <div class="span12" style="box-shadow: 0px 0px 7px grey;margin-bottom: 5px;text-align: -webkit-center;background-image: linear-gradient(to bottom, #4a8bc2, #59b3ff);color: #ffffff;border: 1px solid;">
+                            <h3 style="font-size: 18px;width: 100%;font-weight: 700;float: left;margin: 0px;">Patient Info</h3>
+                        </div>
+
+                        <div class="span12" style="box-shadow: 0px 0px 7px grey;background-image: linear-gradient(to bottom, #ffffff, #f3f3f3);color: #000000;margin-left:0px;border: 1px solid #4c8fc8;padding: 15px;">
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Total Patient</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.patient</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">New Patient this month</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.AppointmentsThisMonth</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">New Patient today</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.TotalAppointmentToday</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Total Patient Previous Month</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.PreviousMonthAppointment</span>
+                            </div>
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Total Patient Last Six Month</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.TotalPatientLastSixM</span>
+                            </div>
+                
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="span12" style="box-shadow: 0px 0px 7px grey;margin-bottom: 5px;text-align: -webkit-center;background-image: linear-gradient(to bottom, #ff5722, #ff825a);color: #ffffff;border: 1px solid;">
+                            <h3 style="font-size: 18px;width: 100%;font-weight: 700;float: left;margin: 0px;">Department Wise Patient Info</h3>
+                        </div>
+
+                        <div class="span12" style="box-shadow: 0px 0px 7px grey;background-image: linear-gradient(to bottom, #ffffff, #f3f3f3);color: #000000;    border: 1px solid #ff5925;padding: 15px;margin-left:0px">
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Gayni Patient Today</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.SoPresentToday</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Dental Patient Today</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.TotalVisits</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Cardiology Patient Today</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.TotalFirstVisits</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Neurology Patient Today</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.TotalSampling</span>
+                            </div>
+
+                            <div class="span12" style="padding: 5px;    margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                <h5 style="font-size: 13px;width: 70%;font-weight: 700;float: left;margin: 0px;">Radiotherapy Patient Today</h5>
+                                <span style="float: right;width: 30%;text-align: -webkit-right;">@ViewBag.TotalAdditionSamples</span>
+                            </div>
+
+        
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="span12" style="box-shadow: 0px 0px 7px grey;margin-bottom: 5px;text-align: -webkit-center;background-image: linear-gradient(to bottom, #9C27B0, #c877d6);color: #ffffff;border: 1px solid;">
+                            <h3 style="font-size: 18px;width: 100%;font-weight: 700;float: left;margin: 0px;">Reports For Management</h3>
+                        </div>
+
+                        <div class="span12" style="box-shadow: 0px 0px 7px grey;background-image: linear-gradient(to bottom, #ffffff, #f3f3f3);margin-left:0px;color: #4c91cb;border: 1px solid #9C27B0;padding: 15px;">
+                            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
+                                <a href="~/Reports/VisitReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Department Wise Today Report</a>
+                            </div>
+
+                            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
+                                <a href="~/Reports/SampleReceipt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Department Wise Current Month Report</a>
+                            </div>
+
+                            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
+                                <a href="~/Reports/SchoolfollowUpReport" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Department Wise Last Month Report</a>
+                            </div>
+
+
+                            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
+                                <a href="~/Reports/SoVisitSummaryRpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Total Patient Current Month Report</a>
+                            </div>
+
+                            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
+                                <a href="~/Reports/SchoolWiseVisits" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Total Patient Last Month Report</a>
+                            </div>
+
+                            <div class="span12" style="cursor: -webkit-grab;padding: 5px;margin-left: 0px;border-bottom: 1px solid gainsboro;">
+                                @*<a data-toggle="modal" data-target="#ChooseDates1" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">FOS Wise Order Intake/Delivered Report</a>*@
+                                <a href="~/Reports/SmsRpt" target="_blank" data-toggle="modal" id="FOSWiseOrderIntakeDeliveredReport" style="font-size: 13px;width: 100%;float: left;margin: 0px;">Total Patient Report</a>
+                            </div>
+
+                        
+                        </div>
+                    </div>
+                </div>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<br />
+<div class="row-fluid">
+    <div class="span12">
+        <div id="chartContainerForPresentSO" style="height:300px;width:100%;">
+
+        </div>
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <div id="chartContainerForSOVisits" style="height:300px;width:100%;">
+
+        </div>
+    </div>
+</div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div id="chartContainer" style="height: 300px;width:100%;">
+
+            </div>
+        </div>
+    </div>
+
+<script>
+    window.onload = function() {
+
+        var result = @Html.Raw(ViewBag.DataPoints2);
+        debugger;
+
+        var ColumnChartData =[];
+        for(var i = 0; i < result.length; i++){
+            ColumnChartData.push(
+                {y:1, label:result[i].name}
+                );
+        }
+
+
+        var chart = new CanvasJS.Chart("chartContainerForPresentSO", {
+            axisX: {
+                labelMaxWidth: 100,
+                labelWrap: true,   // change it to false
+                labelFontSize: 9,
+                interval: 1
+            },
+            animationEnabled: true,
+            theme: "light1",
+            title: {
+                text: "Available Doctor Today"
+            },
+            axisX:{
+                titleFontSize: 20,
+              //  titleFontColor: "black",
+                // title: "Fruit",
+                labelFontSize: 9,
+            },
+            data: [{
+                type: "column",
+                indexLabel: "{y}",
+                startAngle: 200,
+                axisY:{
+                    minimum: 1,
+                },
+                //yValueFormatString: "##0.00\"%\"",
+               // indexLabel: "{label} {y}",
+                dataPoints: ColumnChartData
+            }]
+        });
+        chart.render();
+
+
+        var result = @Html.Raw(ViewBag.DataPoints3);
+        debugger;
+
+        var ColumnChartData =[];
+        for(var i = 0; i < result.length; i++){
+            ColumnChartData.push(
+                {y:result[i].Visits, label:result[i].SaleOfficerName}
+                );
+        }
+
+
+        var chart = new CanvasJS.Chart("chartContainerForSOVisits", {
+            axisX: {
+                labelMaxWidth: 100,
+                labelWrap: true,   // change it to false
+                labelFontSize: 9,
+                interval: 1
+            },
+            animationEnabled: true,
+            theme: "light1",
+            title: {
+                text: "Total Appointment Previous Month"
+            },
+            data: [{
+                //type: "column",
+                type: "pie",
+                indexLabel: "{y}",
+                startAngle: 200,
+                //yValueFormatString: "##0.00\"%\"",
+                // indexLabel: "{label} {y}",
+                dataPoints: ColumnChartData
+            }]
+        });
+        chart.render();
+
+
+
+    var result = @Html.Raw(ViewBag.DataPoints);
+    debugger;
+
+    var ColumnChartData =[];
+    for(var i = 0; i < result.length; i++){
+        ColumnChartData.push(
+            {y:result[i].Visits, label:result[i].Name}
+            );
+    }
+
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        axisX: {
+            labelMaxWidth: 100,
+            labelWrap: true,   // change it to false
+            interval: 1
+        },
+    animationEnabled: true,
+    theme: "light1",
+	title: {
+		text: "Total Appointment This Month"
+	},  
+	
+	axisX:{
+	    titleFontSize: 20,
+	    titleFontColor: "black",
+	    interval:1,
+	    labelFontSize: 9,
+	},
+	data: [{
+
+        type: "pie",
+	    //type: "column",
+	    indexLabel: "{y}",
+		startAngle: 340,
+		//yValueFormatString: "##0.00\"%\"",
+	//	indexLabel: "{label} {y}",
+		dataPoints: ColumnChartData
+	}]
+});
+chart.render();
+
+
+var result = @Html.Raw(ViewBag.DataPoints1);
+debugger;
+
+var pieChartData =[];
+for(var i = 0; i < result.length; i++){
+    pieChartData.push(
+        {y:result[i].Visits, label:result[i].City}
+        );
+}
+
+
+var Piechart = new CanvasJS.Chart("ChartContainerCitywise", {
+    animationEnabled: true,
+    width:450,
+    title: {
+        text: "Top 10 Department OAWise"
+    },
+    data: [{
+        type: "pie",
+        startAngle: 240,
+        //yValueFormatString: "##0.00\"%\"",
+        indexLabel: "{label} {y}",
+        dataPoints: pieChartData
+    }]
+});
+Piechart.render();
+
+
+}
+</script>
+
+
+
+    <!-- Modal -->
+    <div id="ChooseDates1" class="modal fade" role="dialog" style="width: 45%;left: 29%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">FOS Wise Order Intake/Delivered Report</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+                        <div class="span6">
+
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label" style="margin-left: 25px;">Tick for date wise</label>
+                                <div class="controls" style="margin-top: -28px;">
+                                    <input type="checkbox" id="cbCheck1" name="cbCheck1" ">
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Starting</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="StartingDate1" name="StartingDate1" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span6" style="margin-top: 30px;">
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Ending</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="EndingDate1" name="EndingDate1" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+
+                            <button type="button" id="GenerateReport1" class="btn btn-primary" style="float: right;margin-right: 70px;">
+                                <span id="create">Generate Report</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ChooseDates2" class="modal fade" role="dialog" style="width: 45%;left: 29%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">City Wise Order Intake/Delivered Report</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+                        <div class="span6">
+
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label" style="margin-left: 25px;">Tick for date wise</label>
+                                <div class="controls" style="margin-top: -28px;">
+                                    <input type="checkbox" id="cbCheck2" name="cbCheck1" ">
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Starting</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="StartingDate2" name="StartingDate2" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span6" style="margin-top: 30px;">
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Ending</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="EndingDate2" name="EndingDate2" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+
+                            <button type="button" id="GenerateReport2" class="btn btn-primary" style="float: right;margin-right: 70px;">
+                                <span id="create1">Generate Report</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ChooseDates3" class="modal fade" role="dialog" style="width: 45%;left: 29%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">Shop Wise Order Intake/Delivered Report</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+                        <div class="span6">
+
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label" style="margin-left: 25px;">Tick for date wise</label>
+                                <div class="controls" style="margin-top: -28px;">
+                                    <input type="checkbox" id="cbCheck3" name="cbCheck1" ">
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Starting</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="StartingDate3" name="StartingDate3" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span6" style="margin-top: 30px;">
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Ending</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="EndingDate3" name="EndingDate3" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+
+                            <button type="button" id="GenerateReport3" class="btn btn-primary" style="float: right;margin-right: 70px;">
+                                <span id="create3">Generate Report</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ChooseDates4" class="modal fade" role="dialog" style="width: 24%;left: 37%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">City Wise FOS Report</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+
+                        <div class="control-group" style="margin-bottom: 14px;">
+                            <label class="control-label">Starting</label>
+                            <div class="controls">
+                                <input class="text-box single-line" id="StartingDate4" name="StartingDate4" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                            </div>
+                        </div>
+
+                        <button type="button" id="GenerateReport4" class="btn btn-primary" style="float: right;margin-right: 73px;">
+                            <span id="create4">Generate Report</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ChooseDates5" class="modal fade" role="dialog" style="width: 24%;left: 37%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">City Wise / Market wise Retailer</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+
+                        <div class="control-group" style="margin-bottom: 14px;">
+                            <label class="control-label">Starting</label>
+                            <div class="controls">
+                                <input class="text-box single-line" id="StartingDate5" name="StartingDate5" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                            </div>
+                        </div>
+
+                        <button type="button" id="GenerateReport5" class="btn btn-primary" style="float: right;margin-right: 73px;">
+                            <span id="create4">Generate Report</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ChooseDates6" class="modal fade" role="dialog" style="width: 45%;left: 29%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">City Wise / Market wise Retailer</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+
+                        <div class="span6">
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Starting</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="StartingDate6" name="StartingDate6" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span6">
+                            <div class="control-group" style="margin-bottom: 14px;">
+                                <label class="control-label">Ending</label>
+                                <div class="controls">
+                                    <input class="text-box single-line" id="EndingDate6" name="EndingDate6" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                                </div>
+                            </div>
+
+                            <button type="button" id="GenerateReport6" class="btn btn-primary" style="float: right;margin-right: 73px;">
+                                <span id="create6">Generate Report</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ChooseDates7" class="modal fade" role="dialog" style="width: 24%;left: 37%;height: 30%;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color: #3F51B5;box-shadow: 0px 3px 8px grey;">
+                    <button type="button" class="close" data-dismiss="modal" style="margin-top: -8px;color: #ffffff;opacity: 0.8;">&times;</button>
+                    <h4 class="modal-title" style="font-weight: 900;color: #ffffff;margin-top: 0px;margin-bottom: 0px;">City Wise Painter Report</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="span12" style="margin-left: 35px;">
+
+                        <div class="control-group" style="margin-bottom: 14px;">
+                            <label class="control-label">Starting</label>
+                            <div class="controls">
+                                <input class="text-box single-line" id="StartingDate7" name="StartingDate7" style="height: 22px; width: 202px; margin-bottom: 0px;">
+                            </div>
+                        </div>
+
+                        <button type="button" id="GenerateReport7" class="btn btn-primary" style="float: right;margin-right: 73px;">
+                            <span id="create7">Generate Report</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="@Url.Content("~/Scripts/js/jquery.fileDownload.js")"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('input[name=StartingDate1]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate1]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=StartingDate1]").trigger('change');
+
+            $('input[name=EndingDate1]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=EndingDate1]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=EndingDate1]").trigger('change');
+
+            $('input[name=StartingDate2]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate2]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=StartingDate2]").trigger('change');
+
+            $('input[name=EndingDate2]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=EndingDate2]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=EndingDate2]").trigger('change');
+
+            $('input[name=StartingDate3]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate3]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=StartingDate3]").trigger('change');
+
+            $('input[name=EndingDate3]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=EndingDate3]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=EndingDate3]").trigger('change');
+
+            $('input[name=StartingDate4]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate4]').datepicker({ dateFormat: "MM-yy" });
+            $("input[name=StartingDate4]").trigger('change');
+
+            $('input[name=StartingDate5]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate5]').datepicker({ dateFormat: "MM-yy" });
+            $("input[name=StartingDate5]").trigger('change');
+
+            $('input[name=StartingDate6]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate6]').datepicker({ dateFormat: "MM-yy" });
+            $("input[name=StartingDate6]").trigger('change');
+
+            $('input[name=EndingDate6]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=EndingDate6]').datepicker({ dateFormat: "MM-yy" });
+            $("input[name=EndingDate6]").trigger('change');
+
+            $('input[name=StartingDate7]').css({ "height": "22px", "width": "202px", "margin-bottom": "0px" });
+            $('input[name=StartingDate7]').datepicker({ dateFormat: "dd-MM-yy" });
+            $("input[name=StartingDate7]").trigger('change');
+
+            //BUTTONS CLICK REPORTS
+
+            $("#GenerateReport1").click(function () {
+                if ($("#StartingDate1").val() != "" || $("#EndingDate1").val() != "") {
+                    if ($("#cbCheck1").is(':checked') == true) {
+                        window.open("@Url.Action("FosDateWiseReport", "Retailer")" + "?StartingDate=" + $("#StartingDate1").val() + "&EndingDate=" + $("#EndingDate1").val() + "", "_top");
+                    }
+                    else {
+                        window.open("@Url.Action("FosMonthWiseReport", "Retailer")" + "?StartingDate=" + $("#StartingDate1").val() + "&EndingDate=" + $("#EndingDate1").val() + "", "_top");
+                    }
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#GenerateReport2").click(function () {
+                if ($("#StartingDate2").val() != "" || $("#EndingDate2").val() != "") {
+                    if ($("#cbCheck2").is(':checked') == true) {
+                        window.open("@Url.Action("CityDateWiseRetailerReport", "Retailer")" + "?StartingDate=" + $("#StartingDate2").val() + "&EndingDate=" + $("#EndingDate2").val() + "", "_top");
+                    }
+                    else {
+                        window.open("@Url.Action("CityMonthWiseRetailerReport", "Retailer")" + "?StartingDate=" + $("#StartingDate2").val() + "&EndingDate=" + $("#EndingDate2").val() + "", "_top");
+                    }
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#GenerateReport3").click(function () {
+                if ($("#StartingDate3").val() != "" || $("#EndingDate3").val() != "") {
+                    if ($("#cbCheck3").is(':checked') == true) {
+                        window.open("@Url.Action("RetailerShopDateWiseReport", "Retailer")" + "?StartingDate=" + $("#StartingDate3").val() + "&EndingDate=" + $("#EndingDate3").val() + "", "_top");
+                    }
+                    else {
+                        window.open("@Url.Action("RetailerShopMonthWiseReport", "Retailer")" + "?StartingDate=" + $("#StartingDate3").val() + "&EndingDate=" + $("#EndingDate3").val() + "", "_top");
+                    }
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#GenerateReport4").click(function () {
+                if ($("#StartingDate4").val() != "") {
+                    window.open("@Url.Action("CityWiseFosReport", "Retailer")" + "?StartingDate=" + $("#StartingDate4").val() + "", "_top");
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#GenerateReport5").click(function () {
+                if ($("#StartingDate5").val() != "") {
+                    window.open("@Url.Action("CityMktRtlrWiseReport", "Retailer")" + "?StartingDate=" + $("#StartingDate5").val() + "", "_top");
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#GenerateReport6").click(function () {
+                if ($("#StartingDate6").val() != "" || $("#EndingDate6").val() != "") {
+                    window.open("@Url.Action("PosAvailabilityReport", "Retailer")" + "?StartingDate=" + $("#StartingDate6").val() + "&EndingDate=" + $("#EndingDate6").val() + "", "_top");
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#FOSWiseOrderIntakeDeliveredReport").click(function myfunction() {
+                $('input[name=StartingDate1]').val("");
+                $('input[name=EndingDate1]').val("");
+            });
+
+            $("#CityWiseOrderIntakeDeliveredReport").click(function myfunction() {
+                $('input[name=StartingDate2]').val("");
+                $('input[name=EndingDate2]').val("");
+            });
+
+            $("#CityWiseFOS").click(function myfunction() {
+                $('input[name=StartingDate3]').val("");
+                $('input[name=EndingDate3]').val("");
+            });
+
+            $("#CityMarketRetailerWiseReport").click(function myfunction() {
+                $('input[name=StartingDate4]').val("");
+                $('input[name=EndingDate4]').val("");
+            });
+
+            $("#ShopWiseOrderIntakeDeliveredReport").click(function myfunction() {
+                $('input[name=StartingDate5]').val("");
+                $('input[name=EndingDate5]').val("");
+            });
+
+            $("#PaintersReportCityWise").click(function myfunction() {
+                $('input[name=StartingDate6]').val("");
+                $('input[name=EndingDate6]').val("");
+            });
+
+            $("#PaintersReportMarketWise").click(function myfunction() {
+                $('input[name=StartingDate7]').val("");
+                $('input[name=EndingDate7]').val("");
+            });
+
+            $("#PaintersReportRetailerWise").click(function myfunction() {
+                $('input[name=StartingDate8]').val("");
+                $('input[name=EndingDate8]').val("");
+            });
+
+            $("#RetailersPointSummary").click(function myfunction() {
+                window.open("@Url.Action("RetailerPointSummary", "Retailer")", "_top");
+            });
+
+            @*$("#CityWisePainterReport").click(function myfunction() {
+            //window.open("@Url.Action("CityWisePaintersReport", "Retailer")", "_top");
+        });*@
+            $("#GenerateReport7").click(function () {
+                if ($("#StartingDate7").val() != "") {
+                    window.open("@Url.Action("CityWisePaintersReport", "Retailer")" + "?StartingDate=" + $("#StartingDate7").val() + "", "_top");
+                }
+                else {
+                    alertify.error("Please Enter Dates")
+                }
+
+            });
+
+            $("#RetailersLedgerReport").click(function myfunction() {
+                $('input[name=StartingDate10]').val("");
+                $('input[name=EndingDate10]').val("");
+            });
+
+            $("#RetailersRedemptionReport").click(function myfunction() {
+                $('input[name=StartingDate11]').val("");
+                $('input[name=EndingDate11]').val("");
+            });
+
+            $("#MagneticCardReport").click(function myfunction() {
+                $('input[name=StartingDate12]').val("");
+                $('input[name=EndingDate12]').val("");
+            });
+
+            $("#POSAvailabilityReport").click(function myfunction() {
+                $('input[name=StartingDate13]').val("");
+                $('input[name=EndingDate13]').val("");
+            });
+
+            $("#FOSPlanningReport").click(function myfunction() {
+                $('input[name=StartingDate14]').val("");
+                $('input[name=EndingDate14]').val("");
+            });
+
+        });
+    </script>

@@ -1,0 +1,597 @@
+﻿@model FOS.Shared.DoctorData
+
+@{
+    ViewBag.Title = "Doctor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href='~/Content/Style/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/Content/Style/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='~/Scripts/lib/moment.min.js'></script>
+<script src='~/Scripts/lib/jquery-ui.min.js'></script>
+<script src='~/Scripts/lib/fullcalendar.min.js'></script>
+<link href="~/Content/Style/jquery-ui.min.css" rel="stylesheet" />
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb" style="background-color: #08c">
+            <li>
+                <a href="#">Setup</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Manage Doctor</a>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+@using (Html.BeginForm("AddUpdateDoctor", "Admin",FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    <div class="row-fluid">  
+            <!-- BEGIN SAMPLE FORMPORTLET-->
+            <div class="widget green" style="">
+                <div class="widget-title">
+                    <h4>Manage Doctor</h4>
+                    <span class="tools">
+                        @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                        @*<a href="javascript:;" class="icon-remove"></a>*@
+                    </span>
+                </div>
+                <div class="widget-body">
+                    <div class="span5">
+                        <!-- BEGIN FORM-->
+                        <!--Select Prefix-->
+                        <div class="control-group">
+                            <label class="control-label">Select Prefix *</label>
+                            <div class="controls">
+                                @Html.DropDownList("Prefix", new List<SelectListItem>
+                            {
+                                new SelectListItem{ Text="Dr.", Value = "Dr." },
+                                new SelectListItem{ Text="Mr.", Value = "Mr." },
+                                new SelectListItem{ Text="Mrs", Value = "Mrs" },
+                             }, new { @style = "width:50px" })
+                            </div>
+                        </div>
+                        <!-- EFName -->
+                        <div class="control-group">
+                            <label class="control-label">EFName</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.EFName)
+                                @Html.ValidationMessageFor(model => model.EFName)
+                                @Html.HiddenFor(model => model.EmpID)
+                            </div>
+
+                        </div>
+
+                        <!-- ELName -->
+                        <div class="control-group">
+                            <label class="control-label">ELName</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.ELName)
+                                @Html.ValidationMessageFor(model => model.ELName)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">UserName</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.UserName)
+                                @Html.ValidationMessageFor(model => model.UserName)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Password</label>
+                            <div class="controls">
+                                @Html.PasswordFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Confirm Password</label>
+                            <div class="controls">
+                                @Html.PasswordFor(model => model.ConfirmPass)
+                                @Html.ValidationMessageFor(model => model.ConfirmPass)
+                            </div>
+                        </div>
+                        <!--Joining Date-->
+                        <div class="control-group">
+                            <label class="control-label">Joining Date</label>
+                            <div class="controls">
+                                <input class="text-box single-line" id="JoiningData" name="JoiningData" style="height: 22px; width: 202px; margin-bottom: 0px;">
+
+                            </div>
+
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">CNIC</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.CNIC)
+                                @Html.ValidationMessageFor(model => model.CNIC)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Select Designation *</label>
+                            <div class="controls">
+                                @Html.DropDownListFor(model => model.DesignationID, new SelectList(Model.Designation, "ID", "Designation"))
+                                @Html.ValidationMessageFor(model => model.DesignationID)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">PayScale *</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.PayScale)
+                                @Html.ValidationMessageFor(model => model.PayScale)
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label">Home PhoneNo *</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.HPhoneNo)
+                                @Html.ValidationMessageFor(model => model.HPhoneNo)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label">Office PhoneNo *</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.OPhoneNo)
+                                @Html.ValidationMessageFor(model => model.OPhoneNo)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Home Address</label>
+                            <div class="controls">
+                                @Html.TextAreaFor(model => model.HomeAdd)
+                                @Html.ValidationMessageFor(model => model.HomeAdd)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Office Address</label>
+                            <div class="controls">
+                                @Html.TextAreaFor(model => model.OfficeAdd)
+                                @Html.ValidationMessageFor(model => model.OfficeAdd)
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Select Gender</label>
+                            <div class="controls">
+                                @Html.DropDownList("Gender", new List<SelectListItem>
+                            {
+                                new SelectListItem{ Text="Male", Value = "1" },
+                                new SelectListItem{ Text="Female", Value = "2" },
+                                new SelectListItem{ Text="Other", Value = "3" },
+                             }, new { @style = "width:80px" })
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Select Department *</label>
+                            <div class="controls">
+                                @Html.DropDownListFor(model => model.DeptID, new SelectList(Model.Dept, "ID", "Name"))
+                                @Html.HiddenFor(model => model.DeptID)
+                                @Html.ValidationMessageFor(model => model.DeptID)
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label">Select SubDepartment *</label>
+                            <div class="controls">
+                                @Html.DropDownListFor(model => model.SubDeptID, new SelectList(Model.SubDept, "ID", "SubDepartment"))
+                                @Html.ValidationMessageFor(model => model.DeptID)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Mobile No</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.MobileNo)
+                                @Html.ValidationMessageFor(model => model.MobileNo)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Qualification</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.PMDC_No)
+                                @Html.ValidationMessageFor(model => model.PMDC_No)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Select Working Days</label>
+                            <div class="controls">
+                                @*@Html.DropDownListFor(model => model.Days, new SelectList(Model.Days, "ID", "Name"))
+                                @Html.HiddenFor(model=> model.WorkingDaysID)*@
+
+
+                                @Html.DropDownList("Days", new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="Monday", Value = "1" },
+                                    new SelectListItem{ Text="Tuesday", Value = "2" },
+                                    new SelectListItem{ Text="Wednesday", Value = "3" },
+                                    new SelectListItem{ Text="Thursday", Value = "4" },
+                                    new SelectListItem{ Text="Friday", Value = "5" },
+                                    new SelectListItem{ Text="Saturday", Value = "6" },
+                                    new SelectListItem{ Text="Sunday", Value = "7" },
+                                 }, new { @style = "width:200px" })
+                                @Html.HiddenFor(model => model.WorkingDaysID)
+                            </div>
+                        </div>                  
+                        <!--Remarks-->
+                        <div class="control-group">
+                            <label class="control-label">Remarks</label>
+                            <div class="controls">
+                                @Html.EditorFor(model => model.Remarks)
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            @*<label class="control-label">Image</label>*@
+                            @Html.LabelFor(model => model.DrImgPath, new { @class = "control-label" })
+                            <div class="controls">
+                                <input type="file" id="drImg" name="drImg" required />
+
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="control-group" style="border-top: 1px solid #e5e5e5;">
+                            <div class="form-actions" style="padding-left:238px">
+                                <button type="submit" id="btnNew" class="btn btn-primary">
+                                    <i class="icon-ok icon-white" style="padding-right:8px"></i><span id="create">Create</span>
+                                </button>
+                                <button type="button" id="btnRefresh" class="btn btn-info"><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                        <!-- END FORM-->
+                    </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->      
+    </div>
+}
+<!-- BEGIN EDITABLE TABLE widget-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN EXAMPLE TABLE widget-->
+        <div class="widget green">
+            <div class="widget-title">
+                <h4>View Detail</h4>
+                <span class="tools">
+                    @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                    @*<a href="javascript:;" class="icon-remove"></a>*@
+                </span>
+            </div>
+            <div class="widget-body">
+                <div>
+                    <div class="clearfix">
+                        @*<div class="btn-group">
+                                <button id="editable-sample_new" class="btn green">
+                                    Add New <i class="icon-plus"></i>
+                                </button>
+                            </div>*@
+                        <div class="btn-group pull-right"></div>
+                    </div>
+                    <div class="space15"></div>
+                    <table class="table table-striped table-hover table-bordered" id="datatab" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EmpID)
+                                </th>
+
+                                <th style="width: 5% !important">Sr #</th>
+
+                                <th style="width:5% !important">
+                                    Prefix
+                                </th>
+                                <th style="width:10% !important">
+                                    EFName
+                                </th>
+                                <th style="width:10% !important">
+                                    ELName
+                                </th>
+
+                                <th style="width:10% !important">
+                                    CNIC
+                                </th>
+                                <th style="width:10% !important">
+                                    Mobile No
+                                </th>
+                                <th style="width:20% !important">
+                                    Joining Date
+                                </th>
+                                <th style="width:10% !important">
+                                    Pay Scale
+                                </th>
+                                <th style="width:10% !important">
+                                    Designation
+                                </th>
+
+                                <th style="width:10% !important">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE widget-->
+    </div>
+</div>
+<!-- END EDITABLE TABLE widget-->
+
+<script>
+    function LoadSubDepartment() {
+        try {
+            debugger;
+            var deptID = $("#DeptID").val();
+
+            $.ajax({
+                type: "POST",
+                data: { DeptID: deptID },
+                url: "@Url.Action("GetSubDepartmentListByDeptWise", "Admin")",
+                dataType: 'json',
+            success: function (json) {
+                debugger;
+                var $el = $("#SubDeptID");
+                $el.empty(); // remove old options
+                $.each(json, function (value, key) {
+
+                    $el.append($("<option></option>")
+                            .val(key.ID).text(key.Name));
+                });
+
+                if ($('#CityID').val() != null) {
+                    $('#datatab').dataTable().fnDestroy();
+                    GenerateDetailGrid();
+                }
+                else {
+                    $('#datatab').dataTable().empty();
+                }
+
+            }
+
+        });
+    } catch (e) {
+        alert(e);
+        $('#datatab').dataTable().fnDestroy();
+    }
+
+    }
+    $("#DeptID").change(function () {
+        debugger;
+        LoadSubDepartment();
+    });
+
+    function GenerateDetailGrid() {
+
+        //$('#datatab tfoot th').each(function () {
+        //    $(this).html('<input type="text" />');
+        //});
+        var oTable = $('#datatab').DataTable({
+            "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+            "iDisplayLength": 10,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "serverSide": true,
+            "bRetrieve": true,
+            "bDestroy": true,
+            "autoWidth": true,
+            "ajax": {
+                "type": "POST",
+                "url": '@Url.Action("DoctorDataHandler", "Admin")',
+                "contentType": 'application/json; charset=utf-8',
+                'data': function (data) {
+                    data.EmpID = $('#EmpID').val();
+                    return data = JSON.stringify(data);
+
+                },
+
+            },
+            "fnDrawCallback": function (osetting) {
+
+                var UpdateCheck = "0";
+                var DeleteCheck = "0";
+
+                if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                else {
+                    $(".edit").on("click", function () {
+                        debugger;
+                        ClearForm();
+
+                        //$('#EmpID').val($(this).attr("data-id"));
+                        //$('#create').text('Update');
+
+                        //$("#EFName").val($(this).attr("data-name"));
+
+
+                        //$('html, body').animate({
+                        //    scrollTop: $("#main-content").offset().top
+                        //}, 500);
+                        //$("#EFName").focus();
+                        //ClearForm();
+                        var EmpID = $(this).attr("data-id");
+                        var EFName = $(this).attr("data-name");
+                        var ELName = $(this).attr("data-EFName");
+                        var designation = $(this).attr("data-Designation");
+                        var Password = $(this).attr("data-Password");
+                        var ConPass = $(this).attr("data-ConPass");
+                        $('#EmpID').val($(this).attr("data-id"));
+                        $('#create').text('Update');
+                        $("#EFName").val($(this).attr("data-EFName"));
+                        $("#Prefix").val($(this).attr("data-Prefix"));
+                        $("#PayScale").val($(this).attr("data-PayScale")); 
+                     
+                        $("#ELName").val($(this).attr("data-ELName"));
+            
+                        $("#MobileNo").val($(this).attr("data-MobileNo"));
+                        $("#CNIC").val($(this).attr("data-CNIC"));
+                       
+                        $("#JoiningData").val($(this).attr("data-JoiningDate"));
+                        $("#UserName").val($(this).attr("data-UserName"));
+                        $('#DesignationID').val("Hello").text();
+                        //$('#DesignationID').val("12345");
+                        //$("#Designation:selected").val($(this).attr("data-Designation")).change();
+
+                        //$('#Designation').find('option[text="$(this).attr("data-Designation)"]').attr('selected', 'selected');
+                        //alert($("#DesignationID").val(designation));
+
+
+                        $('html, body').animate({
+                            scrollTop: $("#main-content").offset().top
+                        }, 500);
+                        $("#EmpID").focus();
+
+                    });
+                }
+
+                if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                else {
+                    $(".delete").on("click", function () {
+                        debugger;
+                        var ID = $(this).attr("data-id");
+
+                        // confirm dialog
+                        alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                            if (e) {
+                                debugger;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("DeleteSubDepartment", "Admin")",
+                                        data: { ID: ID },
+                                        success: function (data) {
+
+                                            if (data == "0") {
+                                                alertify.success('Record Deleted Successfully');
+                                                var table = $('#datatab').DataTable();
+                                                table.row(this).remove().draw(false);
+                                            }
+
+                                            else { alertify.error('No Deleted Successfully!'); }
+                                        }
+
+                                    });
+
+                                } else { }
+                            });
+
+                        });
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search Doctor : " },
+                "sDom": 'lftipr',
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+               { "data": "EmpID", "bVisible": false },
+               { "data": "EFName", "bSortable": false },
+               { "data": "Prefix" },
+               { "data": "EFName" },
+               { "data": "ELName" },
+               { "data": "CNIC" },
+               { "data": "MobileNo" },
+               { "data": "JoiningDate" },
+               { "data": "PayScale" },
+               { "data": "DesignationName" },
+               {
+                   "sClass": "center-align-td",
+                   "mData": null,
+                   "bSortable": false,
+                   "mRender": function (data, type, row) {
+                       return '<button class="btn btn-success edit" data-id=' + row.EmpID + ' data-EFName=' + row.EFName + ' data-ELName=' + row.ELName + ' data-CNIC=' + row.CNIC + ' data-PayScale=' + row.PayScale + ' data-MobileNo=' + row.MobileNo + ' data-JoiningDate=' + row.JoiningDate + ' data-Designation=' + row.DesignationName + '>' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info delete" data-id=' + row.EmpID + '>' + '<i class=icon-trash></i>' + '</button>';
+                   }
+               }
+                ],
+                "order": [4, "asc"]
+
+            });
+
+        }
+    $(document).ready(function () {
+        $('#Days').css("width", "220px");
+        $('#Days').change(function () {
+            $('#WorkingDaysID').val($('#Days').multipleSelect('getSelects'));
+        }).multipleSelect({
+            filter: true
+        });
+
+
+       $('#JoiningData').datepicker(
+        {
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2100'
+        });
+       $('#TerminationDate').datepicker(
+       {
+           dateFormat: 'dd-M-yy',
+           changeMonth: true,
+           changeYear: true,
+           yearRange: '1950:2100'
+       });
+        GenerateDetailGrid();
+
+   });
+
+   
+
+</script>
+<script type="text/javascript">
+
+
+
+    function ClearForm() {
+        $('#Name').val('');
+        $('#ShortCode').val('');
+        $('#ID').val(0);
+        $('#create').text('Create');
+    }
+
+    function OnSuccess(response) {
+        if (response == "1") {
+            alertify.success("Doctor Registered Successfully");
+            $('#create').text('Create');
+            var dt = $('#datatab').DataTable();
+            dt.ajax.reload();
+            ClearForm();
+        }
+        else if (response == "0") {
+            alertify.error("Unable To Register Doctor.");
+        }
+        else if (response == "2") {
+            alertify.error("Doctor Already Exist");
+        }
+        else {
+            alertify.error(response);
+        }
+
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+</script>

@@ -1,0 +1,524 @@
+﻿
+
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN THEME CUSTOMIZER-->
+        <!-- END THEME CUSTOMIZER-->
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title"></h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Admin Panel</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Manage Roles</a>
+            </li>
+
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget box green">
+            <div class="widget-title">
+                <h4>Manage Roles
+                </h4>
+                <span class="tools">
+                </span>
+            </div>
+            <div class="widget-body">
+
+                <!-- Role Name -->
+                <div class="control-group form-horizontal">
+                    <label class="control-label">Role Name</label>
+                    <div class="controls">
+                        <input type="text" id="txtRoleName" class="input-large" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-left: 0px;margin-top: 20px;">
+                    <div class="span12">
+                        <input type="checkbox" id="cbSelectAll" style="margin: -3px 0 0;" /><span style="padding-left: 7px; font-weight: bold; color: #bb000c">Select All</span>
+                            <div>
+                                <ul class="nav nav-list tree" id="forms_ul" style="font-size: 12px;"></ul>          
+                            </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row" style="margin-left: 0px;margin-top: 20px;">
+
+                <!-- Buttons -->
+                    <div class="form-actions" style="float: right;padding-right: 15px;margin-top: -10px;border-top:0px;background:none">
+                        <button type="submit" class="btn btn-small btn-success" id="btnSubmit" onclick="FormValidation()"><i class="icon-ok icon-white" style="padding-right:8px" ></i><span id="create">Create</span></button>
+                        <button type="button" class="btn btn-small btn-inverse" id="btnRefresh" onclick=""><i class="icon-ban-circle icon-white" style="padding-right:8px"></i>Reset</button>
+                    </div>
+                
+                   </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+
+<!-- BEGIN EDITABLE TABLE widget-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN EXAMPLE TABLE widget-->
+        <div class="widget green">
+            <div class="widget-title">
+                <h4>View Detail</h4>
+                <span class="tools">
+                    @*<a href="javascript:;" class="icon-chevron-down"></a>*@
+                    @*<a href="javascript:;" class="icon-remove"></a>*@
+                </span>
+            </div>
+            <div class="widget-body">
+                <div>
+                    <div class="clearfix"></div>
+                    <div class="space15"></div>
+                    <table class="table table-striped table-hover table-bordered" id="datatab">
+                        <thead>
+                            <tr>
+                                <th style="width: 35px !important">Sr #</th>
+                                <th>Role Name</th>
+                                <th style="width: 100px">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="RoleList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE widget-->
+    </div>
+</div>
+<!-- END EDITABLE TABLE widget-->
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#liAdminPanel,#liRoles").addClass("active");
+
+        var WriteCheck = "0";
+
+        if (WriteCheck == "@HttpContext.Current.Session["WriteCheck"]") {
+            // $("#btnNew").css("display", "none");
+            $("#btnSubmit").attr("disabled", true);
+        }
+        else {
+        }
+
+        GenerateDetailGrid();
+
+        var UpdateID = 0;
+        var PageAction = null;
+        LoadPagesActionData();
+
+
+        $("#cbSelectAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        getPages();
+
+        function getPages() {
+
+            // Ajax Request For Get All Pages For Add Role...
+            $.ajax({
+                url: "@Url.Action("GetPages", "AdminPanel")",
+                data: {},
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    $("#forms_ul").append(data);
+                }
+            });
+
+        }
+
+        $("#btnRefresh").click(function () {
+            ClearForm();
+            UpdateID = 0;
+        });
+
+        $("#btnSubmit").click(function () {
+
+            var RolePages = [];
+            var Actions = [];
+
+            $("input[name=page]:checked").each(function () {
+
+                if ($(this).attr('data-id') != "") {
+                    RolePages.push($(this).attr("data-id"));
+                }
+
+            });
+
+            $("input[name=page]").each(function () {
+
+                var a = [];
+
+                $("input[name=action" + $(this).attr("data-id") + "]").each(function () {
+
+                    if ($(this).is(":checked")) {
+                        a.push(true);
+                    }
+                    else {
+                        a.push(false);
+                    }
+
+                });
+
+                PageAction.push({
+                    Page: $(this).attr("data-id"),
+                    Update: a[0],
+                    Delete: a[1],
+                    Write: a[2],
+                    Read: a[3],
+                    Status: $(this).is(":checked") ? true : false
+                });
+
+
+            });
+
+            $(".page").bind().change(function () {
+
+                var a = $(this).attr('data-id');
+                $("input.cbAction" + a + "").prop('checked', this.checked);
+
+            });
+
+            if ($("#txtRoleName").val() == "") {
+                alertify.error("Please Enter Role Name");
+            }
+            else {
+
+                if (PageAction.length > 0) {
+
+                    $.ajax({
+                        url: "@Url.Action("AddUpdateRole", "AdminPanel")",
+                        data:
+                               JSON.stringify({
+                                   RoleID: UpdateID,
+                                   RoleName: $("#txtRoleName").val(),
+                                   PageActions: PageAction
+                               }),
+                        cache: false,
+                        type: "POST",
+                        contentType: 'application/json',
+                        success: function (data) {
+
+                            if (data == 0) {
+                                alertify.success("Role Saved Successfully !!!");
+                                $("#txtRoleName").val("");
+                                $("#btnRefresh").trigger('click');
+                                ClearForm();
+                                UpdateID = 0;
+                                var dt = $('#datatab').DataTable();
+                                dt.ajax.reload();
+                            }
+
+                            if (data == 2) {
+                                alertify.error("Role is Already Exist");
+                                $("#txtRoleName").addClass("has-error");
+                            }
+
+                            if (data == 1) {
+                                alertify.error("Error Occurred.");
+                            }
+
+                        }
+                    });
+                }
+                else { alertify.error("Please Select Pages"); }
+            }
+        });
+
+        function ClearForm() {
+            $('#txtRoleName').val('');
+
+            $('#cbSelectAll').trigger('click');
+            $("#cbSelectAll").prop('checked', false);
+            $('#cbSelectAll input:checkbox').removeAttr('checked');
+
+            PageAction = null;
+            LoadPagesActionData();
+        }
+
+
+        // Load Grid Data ...
+        function LoadPagesActionData() {
+            $.ajax({
+                url: "@Url.Action("GetPagesActionData", "AdminPanel")",
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    PageAction = data;
+                }
+            });
+        }
+
+        function GenerateDetailGrid() {
+
+            //$('#datatab tfoot th').each(function () {
+            //    $(this).html('<input type="text" />');
+            //});
+            var oTable = $('#datatab').DataTable({
+                "aLengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
+                "iDisplayLength": 10,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "serverSide": true,
+                "bRetrieve": true,
+                "bDestroy": true,
+                "autoWidth": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": '@Url.Action("RoleDataHandler", "AdminPanel")',
+                    "contentType": 'application/json; charset=utf-8',
+                    'data': function (data) {
+                        return data = JSON.stringify(data);
+                    },
+
+                },
+                "fnDrawCallback": function (osetting) {
+
+                    var UpdateCheck = "0";
+                    var DeleteCheck = "0";
+
+                    if (UpdateCheck == "@HttpContext.Current.Session["UpdateCheck"]") { $(".edit").css("display", "none"); }
+                    else {
+
+                        $(".edit").on("click", function () {
+
+                            ClearForm();
+                            $('#create').text('Update');
+                            UpdateID = $(this).attr("data-id");
+                            // $('.icon-ok').text('Update');
+                            $("#txtRoleName").val($(this).attr("data-name"));
+
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("GetRolePages", "AdminPanel")",
+                                data: { RoleID: UpdateID },
+                                success: function (data) {
+
+                                    if (data != null) {
+                                        $("#forms_ul").html("");
+                                        $("#forms_ul").append(data);
+                                    }
+
+                                    else { alertify.error('An Error Occured, Try Again.'); }
+                                }
+
+                            });
+
+
+
+
+
+                        });
+
+                    }
+
+                    if (UpdateCheck == "@HttpContext.Current.Session["DeleteCheck"]") { $(".delete").css("display", "none"); }
+                    else {
+
+                        $(".delete").on("click", function () {
+
+                            var RoleID = $(this).attr("data-id");
+
+                            //// confirm dialog
+                            alertify.confirm("Are You Sure You Want To Delete This Record ?  ", function (e) {
+                                if (e) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("DeleteRole", "AdminPanel")",
+                                        data: { RoleID: RoleID },
+                                        success: function (data) {
+
+                                            if (data == "0") {
+                                                alertify.success('Role Deleted Successfully');
+                                                var table = $('#datatab').DataTable();
+                                                table.row(this).remove().draw(false);
+                                            }
+
+                                            else { alertify.error('This Is Assign To The User. If you Want To Delete This Role Then First Delete The User.'); }
+                                        }
+
+                                    });
+
+                                } else { }
+                            });
+
+                        });
+
+        }
+    },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "oLanguage": { "sSearch": "Search Area : " },
+                "sDom": 'lftipr',
+                "processing": true,
+                "deferRender": true,
+                "bSelect": true,
+                "columns": [
+                   { "data": "RoleID" },
+                   { "data": "RoleName" },
+                {
+                    "sClass": "center-align-td",
+                    "mData": null,
+                    "bSortable": false,
+                    "mRender": function (data, type, row) {
+                        return '<button class="btn btn-success edit" data-id="' + row.RoleID + '"  data-name="' + row.RoleName + '">' + '<i class=icon-pencil></i>' + '</button>&nbsp;<button class="btn btn-info delete" data-id=' + row.RoleID + '>' + '<i class=icon-trash></i>' + '</button>';
+                    }
+                }
+                ],
+                "order": [0, "asc"]
+
+    });
+
+    }
+
+    function ClearForm() {
+        $('#txtRoleName').val('');
+
+        $('#cbSelectAll').trigger('click');
+        $("#cbSelectAll").prop('checked', false);
+        $('#cbSelectAll input:checkbox').removeAttr('checked');
+
+
+        PageAction = null;
+        LoadPagesActionData();
+    }
+
+
+    // Load Grid Data ...
+    function LoadPagesActionData() {
+        $.ajax({
+            url: "@Url.Action("GetPagesActionData", "AdminPanel")",
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                PageAction = data;
+            }
+        });
+    }
+
+
+    function FormValidation() {
+        var status;
+
+        if ($('#Name').val() == "") {
+            status = false;
+            alertify.error("Fill Form Properly.");
+        }
+        return status;
+    }
+
+    function OnSuccess(response) {
+        if (response == "1") {
+            alertify.success("Role Saved Successfully.");
+            $('#create').text('Create');
+            var dt = $('#datatab').DataTable();
+            dt.ajax.reload();
+            ClearForm();
+        }
+        else if (response == "0") {
+            alertify.error("Unable To Save Role.");
+        }
+        else {
+            alertify.error(response);
+        }
+
+    }
+
+    function OnFailure(response) {
+        if (response.status == 422) {
+            var errors = JSON.parse(response.responseText);
+            alertify.error(errors.errors);
+        }
+        else {
+            alertify.error(response);
+        }
+    }
+
+
+    });
+</script>
+
+<script type="text/javascript">
+
+
+
+   
+
+    
+
+
+</script>
+
+
+<script>
+
+    $(document).ajaxComplete(function () {
+
+        $(".page").bind().change(function () {
+
+            var a = $(this).attr('data-id');
+
+            $("input.cbAction"+a+"").prop('checked', this.checked);
+        });
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

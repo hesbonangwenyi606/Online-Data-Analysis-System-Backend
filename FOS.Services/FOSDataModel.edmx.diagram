@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d4a37a8cf060422ba4d16447284c293e" Name="Diagram1" ZoomLevel="65">
+        <EntityTypeShape EntityType="FOS_WallCoatModel.LoginHistory" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Role" Width="1.5" PointX="0.75" PointY="6" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.User" Width="1.5" PointX="3.25" PointY="14.5" />
+        <AssociationConnector Association="FOS_WallCoatModel.UserRoles" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.RolePage" Width="1.5" PointX="13.625" PointY="8.25" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_RolePages_Roles" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.AccessLog" Width="1.5" PointX="7.5" PointY="29.5" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Tbl_Access" Width="1.5" PointX="16.375" PointY="6.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Department" Width="1.5" PointX="3.375" PointY="2.875" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Designation" Width="1.5" PointX="3.375" PointY="6.375" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.SaleOfficer" Width="1.5" PointX="5.25" PointY="28.375" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_AccessLog_SaleOfficers" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.SubDepartment" Width="1.5" PointX="5.625" PointY="11.625" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_SubDepartment_Department" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Patient" Width="1.5" PointX="8.375" PointY="8.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Slot" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Appointment" Width="1.5" PointX="0.75" PointY="11.75" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Department_Department" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.DoctorDay" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Employee" Width="1.5" PointX="5.625" PointY="4" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Employee_Department" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Day" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Page" Width="1.5" PointX="10.375" PointY="9" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Pages_Pages" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_RolePages_Pages" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.DoctorIncomeOutcome" Width="1.5" PointX="8.375" PointY="4.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.City" Width="1.5" PointX="3" PointY="29" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_SaleOfficers_Cities" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.JobsDetail" Width="1.5" PointX="12.375" PointY="12.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.Retailer" Width="1.5" PointX="10.5" PointY="28.125" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_Cities" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_SoRetailersJobs_Retailers" />
+        <AssociationConnector Association="FOS_WallCoatModel.FK_Retailers_SaleOfficers" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.DoctorSlot" Width="1.5" PointX="10.375" PointY="4.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.CheckSlot" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FOS_WallCoatModel.SentSM" Width="1.5" PointX="12.375" PointY="4.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="35f054f8812c4203b8f01df430c8e2d3" Name="Diagram1">
+        <EntityTypeShape EntityType="FOSDbModel.Area" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.City" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.Dealer" Width="1.5" PointX="9.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.Job" Width="1.5" PointX="7.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.LoginHistory" Width="1.5" PointX="9.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.Page" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.RegionalHeadRegion" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.RegionalHead" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.Region" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.Retailer" Width="1.5" PointX="12" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.RolePage" Width="1.5" PointX="5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.Role" Width="1.5" PointX="2.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.SaleOfficer" Width="1.5" PointX="7.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.sysdiagram" Width="1.5" PointX="11.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FOSDbModel.User" Width="1.5" PointX="5" PointY="15" IsExpanded="true" />
+        <AssociationConnector Association="FOSDbModel.FK_Areas_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_Cities_Regions" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_Dealers_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_SaleOfficers_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_Dealers_SaleOfficers" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_Retailers_Dealers" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_Pages_Pages" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_RolePages_Pages" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_RegionalHeadRegions_RegionalHeads" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_RegionalHeadRegions_Regions" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_SaleOfficers_RegionalHeads" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_Retailers_SaleOfficers" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.FK_RolePages_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.SaleOfficerAreas" ManuallyRouted="false" />
+        <AssociationConnector Association="FOSDbModel.UserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
