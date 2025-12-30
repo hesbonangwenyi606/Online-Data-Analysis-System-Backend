@@ -3,10 +3,9 @@ A fully functional Doctor Appointment Management System built with ASP.NET MVC 5
 
 ## Full Name of Project
 **ODAS: Online Doctor Appointment System**
-
 Project Namespace (Backend): ODAS.Backend
 
-Features
+## Features
 Patient Features
 
 Register and login as a patient
