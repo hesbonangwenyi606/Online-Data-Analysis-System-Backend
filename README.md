@@ -63,7 +63,7 @@ This will install all required packages such as Entity Framework, Bootstrap, and
 
 ## How to Start the Project
 1.Clone the Repository
-git clone https://bitbucket.org/yourusername/doctor-appointment-system.git
+git clone git@github.com:hesbonangwenyi606/Online-Data-Analysis-System-Backend.git
 cd doctor-appointment-system
 
 2.Open in Visual Studio
