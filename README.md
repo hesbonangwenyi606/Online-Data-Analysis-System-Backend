@@ -134,13 +134,10 @@ Response Example:
   }
 ]
 
-2. Get Appointment by ID
-
+2.Get Appointment by ID
 Endpoint:
 
-GET /api/appointments/{id}
-
-
+**GET /api/appointments/{id}**
 Response Example:
 
 {
