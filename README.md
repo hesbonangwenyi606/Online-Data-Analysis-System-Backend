@@ -1,5 +1,4 @@
-Doctor Appointment System (ASP.NET MVC 5)
-
+### Doctor Appointment System (ASP.NET MVC 5)
 A fully functional Doctor Appointment Management System built with ASP.NET MVC 5. This system allows patients to book appointments, view schedules, and manage appointments online. Doctors and admins can manage schedules, appointments, and reports.
 
 Full Name of Project
