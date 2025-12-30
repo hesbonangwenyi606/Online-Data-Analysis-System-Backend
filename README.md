@@ -103,24 +103,19 @@ cd ODAS.Backend
 
 
 Build the project:
-
 dotnet build
 
 
 Run the project:
-
 dotnet run
 
 
 The terminal will show something like:
-
 Now listening on: http://localhost:5000
 
 
 Open the URL in your browser to access the application.
-
 Sample API Endpoints & Example JSON Responses
-
 This project exposes RESTful API endpoints for appointments, doctors, and patients.
 
 1. Get All Appointments
