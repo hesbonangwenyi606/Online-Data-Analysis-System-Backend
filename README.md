@@ -49,7 +49,7 @@ Download Visual Studio 2019 or 2022 with ASP.NET and web development workload.
 2 .NET Framework
 Ensure .NET Framework 4.7.2 or higher is installed.
 
-3.SQL Server
+3 SQL Server
 Install SQL Server Express and SQL Server Management Studio (SSMS).
 
 4.NuGet Packages
