@@ -7,29 +7,19 @@ Project Namespace (Backend): ODAS.Backend
 
 ## Features
 Patient Features
-
 Register and login as a patient
-
 Book, view, and cancel appointments
-
 View doctors’ profiles and schedules
-
 Receive notifications for upcoming appointments
 
 Doctor Features
-
 View scheduled appointments
 
 Update availability and schedules
-
 Manage patient appointments
-
 Admin Features
-
 Manage doctors, patients, and appointments
-
 Generate reports and statistics
-
 View system activity and logs
 
 Technology Stack
