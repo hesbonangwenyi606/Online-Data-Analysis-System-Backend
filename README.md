@@ -52,7 +52,7 @@ Ensure .NET Framework 4.7.2 or higher is installed.
 3 SQL Server
 Install SQL Server Express and SQL Server Management Studio (SSMS).
 
-4.NuGet Packages
+4 NuGet Packages
 All project dependencies are managed via NuGet. To restore them:
 
 Open the solution in Visual Studio.
