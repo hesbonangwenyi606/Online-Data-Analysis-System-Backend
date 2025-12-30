@@ -87,25 +87,18 @@ Enable-Migrations
 Add-Migration InitialCreate
 Update-Database
 
-4. Run the Project in Visual Studio
-
+4.Run the Project in Visual Studio
 Press F5 to start the project.
 
 The app will run at:
-
 http://localhost:<port>/
-
-
 Use the app in your browser to test patient, doctor, and admin functionality.
 
-5. Run the Project via Command Line (Optional)
-
+5.Run the Project via Command Line (Optional)
 If you want to run the project without opening Visual Studio:
 
 Open a terminal in the project folder.
-
 Navigate to the backend project folder:
-
 cd ODAS.Backend
 
 
