@@ -201,13 +201,10 @@ Response Example:
   "Notes": "Patient requested new time"
 }
 
-5. Delete an Appointment
-
+5.Delete an Appointment
 Endpoint:
 
-DELETE /api/appointments/{id}
-
-
+**DELETE /api/appointments/{id}**
 Response Example:
 
 {
