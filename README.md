@@ -14,7 +14,6 @@ Receive notifications for upcoming appointments
 
 Doctor Features
 View scheduled appointments
-
 Update availability and schedules
 Manage patient appointments
 Admin Features
