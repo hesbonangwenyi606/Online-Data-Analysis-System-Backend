@@ -211,13 +211,10 @@ Response Example:
   "message": "Appointment deleted successfully."
 }
 
-6. Get All Doctors
-
+6.Get All Doctors
 Endpoint:
 
-GET /api/doctors
-
-
+**GET /api/doctors**
 Response Example:
 
 [
