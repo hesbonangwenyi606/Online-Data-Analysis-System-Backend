@@ -56,14 +56,9 @@ Install SQL Server Express and SQL Server Management Studio (SSMS).
 All project dependencies are managed via NuGet. To restore them:
 
 Open the solution in Visual Studio.
-
 Right-click the solution → Restore NuGet Packages.
 
-Or use Package Manager Console:
-
-Update-Package -reinstall
-
-
+## Update-Package -reinstall
 This will install all required packages such as Entity Framework, Bootstrap, and other libraries used in the project.
 
 How to Start the Project
