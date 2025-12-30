@@ -43,16 +43,16 @@ Doctor-Appointment-System/
 ## Dependencies Installation
 Before running the project, make sure you have all dependencies installed:
 
-1. Visual Studio
+1.Visual Studio
 Download Visual Studio 2019 or 2022 with ASP.NET and web development workload.
 
 2. .NET Framework
 Ensure .NET Framework 4.7.2 or higher is installed.
 
-3. SQL Server
+3.SQL Server
 Install SQL Server Express and SQL Server Management Studio (SSMS).
 
-4. NuGet Packages
+4.NuGet Packages
 All project dependencies are managed via NuGet. To restore them:
 
 Open the solution in Visual Studio.
@@ -174,8 +174,7 @@ Response Example:
   "Notes": "First-time consultation"
 }
 
-4. Update an Appointment
-
+4.Update an Appointment
 Endpoint:
 
 **PUT /api/appointments/{id}**
