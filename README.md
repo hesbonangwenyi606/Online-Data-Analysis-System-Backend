@@ -12,7 +12,7 @@ Book, view, and cancel appointments
 View doctors’ profiles and schedules
 Receive notifications for upcoming appointments
 
-Doctor Features
+**Doctor Features**
 View scheduled appointments
 Update availability and schedules
 Manage patient appointments
