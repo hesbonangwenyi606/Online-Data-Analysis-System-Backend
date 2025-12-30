@@ -16,7 +16,8 @@ Receive notifications for upcoming appointments
 View scheduled appointments
 Update availability and schedules
 Manage patient appointments
-Admin Features
+
+**Admin Features**
 Manage doctors, patients, and appointments
 Generate reports and statistics
 View system activity and logs
