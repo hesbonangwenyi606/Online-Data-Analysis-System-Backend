@@ -70,7 +70,6 @@ cd doctor-appointment-system
 Open Doctor-Appointment-System.sln.
 
 Wait for Visual Studio to restore NuGet packages automatically.
-
 3.Configure the Database
 Open Web.config and update the connectionString:
 
