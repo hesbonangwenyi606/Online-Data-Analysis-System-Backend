@@ -62,16 +62,16 @@ Right-click the solution → Restore NuGet Packages.
 This will install all required packages such as Entity Framework, Bootstrap, and other libraries used in the project.
 
 ## How to Start the Project
-1. Clone the Repository
+1.Clone the Repository
 git clone https://bitbucket.org/yourusername/doctor-appointment-system.git
 cd doctor-appointment-system
 
-2. Open in Visual Studio
+2.Open in Visual Studio
 Open Doctor-Appointment-System.sln.
 
 Wait for Visual Studio to restore NuGet packages automatically.
 
-3. Configure the Database
+3.Configure the Database
 Open Web.config and update the connectionString:
 
 <connectionStrings>
