@@ -149,13 +149,10 @@ Response Example:
   "Notes": "Patient has a mild fever"
 }
 
-3. Create a New Appointment
-
+3.Create a New Appointment
 Endpoint:
 
-POST /api/appointments
-
-
+**POST /api/appointments**
 Request Body Example:
 
 {
