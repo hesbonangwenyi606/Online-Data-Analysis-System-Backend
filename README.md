@@ -67,7 +67,7 @@ git clone git@github.com:hesbonangwenyi606/Online-Data-Analysis-System-Backend.g
 cd doctor-appointment-system
 
 2.Open in Visual Studio
-Open Doctor-Appointment-Sy
+Open Doctor-Appoi
 
 Wait for Visual Studio to restore NuGet packages automatically.
 3.Configure the Database
