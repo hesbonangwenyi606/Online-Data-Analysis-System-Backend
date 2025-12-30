@@ -237,17 +237,10 @@ curl -X GET http://localhost:5000/api/appointments
 Fork the repository and create a new branch:
 git checkout -b feature/your-feature-name
 Commit your changes:
-
 git commit -m "Add feature XYZ"
-
-
 Push to your branch:
-
 git push origin feature/your-feature-name
-
-
 Create a Pull Request to merge into main.
 
-License
-
+## License
 This project is licensed under the MIT License. See LICENSE
