@@ -40,8 +40,7 @@ Doctor-Appointment-System/
 ├── Web.config            # Project configuration
 └── README.md             # Project documentation
 
-Dependencies Installation
-
+## Dependencies Installation
 Before running the project, make sure you have all dependencies installed:
 
 1. Visual Studio
